@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+                intent.putExtra("userName", "Bob");
                 MainActivity.this.startActivity(intent);
             }
         });
