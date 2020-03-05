@@ -19,17 +19,18 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <ListView
-        android:id="@+id/messages_view"
-        android:layout_width="match_parent"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/my_recycler_view"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:divider="#fff"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/input"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        />
 
     <LinearLayout
+        android:id="@+id/input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
@@ -61,6 +62,9 @@
             android:scaleType="fitCenter"
             tools:layout_editor_absoluteX="365dp"
             tools:layout_editor_absoluteY="683dp" />
+
     </LinearLayout>
 
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
