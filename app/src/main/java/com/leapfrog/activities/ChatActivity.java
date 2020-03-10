@@ -28,7 +28,7 @@ import java.util.Objects;
 
 public class ChatActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private MyAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     public ArrayList<String> myDataset= new ArrayList<>();
 
@@ -40,10 +40,6 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        recyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
@@ -61,8 +57,9 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText editText = (EditText) findViewById(R.id.editText);
                 String message = editText.getText().toString();
-                myDataset.add(message);
+                mAdapter.mDataset.add(message);
                 mAdapter.notifyDataSetChanged();
+                editText.setText("");
             }
         });
 

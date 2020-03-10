@@ -26,37 +26,41 @@ import com.leapfrog.R;
 import java.io.*;
 import java.util.*;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public ArrayList<String> mDataset;
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
-        public MyViewHolder(TextView v) {
+        public MyViewHolder(View v) {
             super(v);
-            textView = v;
+            textView = v.findViewById(R.id.tv);
+        }
+
+        void bind(String message){
+            textView.setText(message);
         }
     }
 
     public MyAdapter(ArrayList<String> myDataset) {
+
         mDataset = myDataset;
     }
 
     @Override
-    public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                      int viewType) {
-        TextView v = (TextView) LayoutInflater.from(parent.getContext())
+        View v = (View) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.tv, parent, false);
-
         MyViewHolder vh = new MyViewHolder(v);
         return vh;
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.textView.setText(mDataset.get(position));
-
+        String message = mDataset.get(position);
+        ((MyViewHolder) holder).bind(message);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
