@@ -10,10 +10,12 @@ import android.widget.EditText;
 import com.leapfrog.activities.ChatActivity;
 
 public class MainActivity extends AppCompatActivity {
+    LeaperDatabase myDb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        myDb = new LeaperDatabase(this);
 
         Button button = findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
