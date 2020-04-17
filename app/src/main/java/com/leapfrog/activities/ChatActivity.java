@@ -1,96 +1,198 @@
 package com.leapfrog.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothServerSocket;
+import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
-import com.leapfrog.DisplayMessageActivity;
-import com.leapfrog.R;
 
-import java.lang.invoke.ConstantCallSite;
+import com.leapfrog.MainActivity;
+import com.leapfrog.adapter.MessageListAdapter;
+import com.leapfrog.model.Message;
+import com.leapfrogandroid.R;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Objects;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ChatActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private MyAdapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-    public ArrayList<String> myDataset= new ArrayList<>();
+    private MessageListAdapter mChatAdapter;
+    private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLayoutManager;
+    private Button mSendButton;
+    private EditText mMessageEditText;
 
-    public static final String EXTRA_MESSAGE = "com.leapfrog.MESSAGE";
-    ImageButton sendButton;
+    public BluetoothAdapter bluetoothAdapter;
+
+    private volatile String message = "";
+    public volatile Thread bluetoothClientThread, bluetoothServerThread, bluetoothServerControllerThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
-        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        setContentView(R.layout.activity_private_messages);
 
-        // use a linear layout manager
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(myDataset);
-        recyclerView.setAdapter(mAdapter);
-        Intent intent = getIntent();
-        String userName = intent.getStringExtra("userName");
-        userName = " " + userName;
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        final String macID = getIntent().getStringExtra("ChatSession");
 
-        sendButton = findViewById(R.id.button);
-        sendButton.setOnClickListener(new View.OnClickListener() {
+        mSendButton = findViewById(R.id.button_chatbox_send);
+        mMessageEditText = findViewById(R.id.edittext_chatbox);
+
+        mRecyclerView = findViewById(R.id.recyclerview_message_list);
+        mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager.setReverseLayout(true);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mChatAdapter = new MessageListAdapter(this, new ArrayList<Message>(), macID, MainActivity.currentUser.getUserID());
+        mRecyclerView.setAdapter(mChatAdapter);
+
+        mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText editText = (EditText) findViewById(R.id.editText);
-                String message = editText.getText().toString();
-                mAdapter.mDataset.add(message);
-                mAdapter.notifyDataSetChanged();
-                editText.setText("");
+                message = mMessageEditText.getText().toString();
+
+                if(!message.isEmpty()) {
+                    mChatAdapter.sendMessage(message);
+
+                    try {
+                        bluetoothClientThread = new BluetoothClient(BluetoothAdapter.getDefaultAdapter().getRemoteDevice(macID));
+                        bluetoothClientThread.start();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    mMessageEditText.setText("");
+                }
             }
         });
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        if(getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(userName);
-
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            Glide.with(getApplicationContext()).load(R.drawable.default_profile_picture).apply(RequestOptions.circleCropTransform()).into(new CustomTarget<Drawable>() {
-                @Override
-                public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        Objects.requireNonNull(getSupportActionBar()).setLogo(resource);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                if (mLayoutManager.findLastVisibleItemPosition() == mChatAdapter.getItemCount() - 1) {
+                    mChatAdapter.loadPreviousMessages();
                 }
+            }
+        });
 
-                @Override
-                public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                }
-            });
-            getSupportActionBar().setDisplayUseLogoEnabled(true);
-
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
+        try {
+            bluetoothServerControllerThread = new BluetoothServerController();
+            bluetoothServerControllerThread.start();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    @Override
-    public boolean onSupportNavigateUp(){
-        onBackPressed();
-        return true;
+    class BluetoothServerController extends Thread {
+        private BluetoothServerSocket bluetoothServerSocket;
+
+        BluetoothServerController () throws IOException {
+            bluetoothServerSocket = BluetoothAdapter.getDefaultAdapter().listenUsingRfcommWithServiceRecord("LeapFrogChat", MainActivity.BLUETOOTH_UUID);
+        }
+
+        @Override
+        public void run(){
+            while(true){
+                try {
+                    BluetoothSocket bluetoothSocket = bluetoothServerSocket.accept();
+
+                    if(bluetoothSocket != null){
+                        bluetoothServerThread = new BluetoothServer(bluetoothSocket);
+                        bluetoothServerThread.start();
+                    }
+                } catch (IOException e){
+                    break;
+                }
+            }
+        }
+    }
+
+    class BluetoothServer extends Thread {
+        private InputStream inputStream;
+        private BluetoothSocket bluetoothSocket;
+
+        BluetoothServer(BluetoothSocket socket) throws IOException {
+            inputStream = socket.getInputStream();
+            bluetoothSocket = socket;
+        }
+
+        @Override
+        public void run() {
+            try {
+                String text = "";
+
+                while (true) {
+                    int next = -1;
+
+                    try {
+                        next = bluetoothSocket.getInputStream().read();
+                    }catch (IOException e){
+                        Log.e("TEST", "Could not read");
+                    }
+
+                    if (next == 0 || next == -1) {
+                        break;
+                    }
+
+                    text += (char) next;
+                }
+
+                inputStream.close();
+                bluetoothSocket.close();
+
+                final String finalText = text;
+                if (!text.isEmpty()) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Message temp = new Message();
+                            temp.setCreatedAt(System.currentTimeMillis());
+                            temp.setSender(MainActivity.otherUser);
+                            temp.setMessage(finalText);
+                            mChatAdapter.appendMessage(temp);
+                        }
+                    });
+                }
+
+                Log.e("TEST", mChatAdapter.messageList.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    class BluetoothClient extends Thread {
+        private BluetoothSocket socket;
+
+        BluetoothClient(BluetoothDevice device) throws IOException {
+            socket = device.createInsecureRfcommSocketToServiceRecord(MainActivity.BLUETOOTH_UUID);
+        }
+
+        @Override
+        public void run(){
+            try {
+                socket.connect();
+                OutputStream outputStream = socket.getOutputStream();
+
+                outputStream.write(message.getBytes());
+                outputStream.write(0);
+                outputStream.flush();
+                outputStream.close();
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
+

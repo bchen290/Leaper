@@ -1,4 +1,4 @@
-package com.leapfrog;
+package com.leapfrog.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
