@@ -9,4 +9,5 @@
     <string name="hello_hello">hello, hello!</string>
     <string name="add_user">Add User</string>
     <string name="clear_all_data">Clear All Data</string>
+    <string name="login">Log-In</string>
 </resources>
