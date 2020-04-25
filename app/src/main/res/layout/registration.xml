@@ -3,7 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
-        android:id="@+id/loginscrn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -12,7 +11,6 @@
         android:textStyle="bold"
         android:layout_gravity="center"/>
     <TextView
-        android:id="@+id/fstTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -26,7 +24,6 @@
         android:layout_gravity="center"
         android:ems="10"/>
     <TextView
-        android:id="@+id/lstTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -40,7 +37,6 @@
         android:layout_gravity="center"
         android:ems="10"/>
     <TextView
-        android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -54,7 +50,6 @@
         android:layout_gravity="center"
         android:ems="10"/>
     <TextView
-        android:id="@+id/secTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -68,7 +63,6 @@
         android:layout_gravity="center"
         android:ems="10" />
     <TextView
-        android:id="@+id/thirdTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -83,7 +77,6 @@
         android:inputType="textPassword"
         android:ems="10"/>
     <TextView
-        android:id="@+id/psswrdConf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -98,14 +91,14 @@
         android:inputType="textPassword"
         android:ems="10"/>
     <Button
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_gravity="center"
-        android:text="Login" />
-    <TextView android:id="@+id/lnkLogin"
+        android:text="Register" />
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
