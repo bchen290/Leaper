@@ -74,6 +74,7 @@ public class ChatActivity extends AppCompatActivity {
 
                     mMessageEditText.setText("");
                 }
+                LeaperDatabase.getInstance(ChatActivity.this).insertTable2Data(message);
             }
         });
 
@@ -116,25 +117,6 @@ public class ChatActivity extends AppCompatActivity {
                     break;
                 }
             }
-        }
-    }
-
-    public class AddMessage extends AppCompatActivity {
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_private_messages);
-
-
-            final EditText msg = findViewById(R.id.edittext_chatbox);
-
-            Button sendMessage = findViewById(R.id.button_chatbox_send);
-            sendMessage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    LeaperDatabase.getInstance(ChatActivity.this).insertTable2Data(msg.getText().toString());
-                }
-            });
         }
     }
 

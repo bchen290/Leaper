@@ -29,7 +29,7 @@ public class LeaperDatabase extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, First TEXT, Last TEXT, Username TEXT, Password TEXT, Email TEXT)");
-        db.execSQL("create table 2" + TABLE_NAME2 + "(msgID INTEGER PRIMARY KEY AUTOINCREMENT, msg TEXT)");
+        db.execSQL("create table " + TABLE_NAME2 + "(msgID INTEGER PRIMARY KEY AUTOINCREMENT, msg TEXT)");
     }
 
     @Override
