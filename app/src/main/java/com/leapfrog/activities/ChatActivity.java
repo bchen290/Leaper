@@ -65,12 +65,8 @@ public class ChatActivity extends AppCompatActivity {
                 if(!message.isEmpty()) {
                     mChatAdapter.sendMessage(message);
 
-                    try {
-                        bluetoothClientThread = new BluetoothClient(BluetoothAdapter.getDefaultAdapter().getRemoteDevice(macID));
-                        bluetoothClientThread.start();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    bluetoothClientThread = new ConnectThread(BluetoothAdapter.getDefaultAdapter().getRemoteDevice(macID));
+                    bluetoothClientThread.start();
 
                     mMessageEditText.setText("");
                 }
@@ -88,34 +84,50 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        try {
-            bluetoothServerControllerThread = new BluetoothServerController();
-            bluetoothServerControllerThread.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        bluetoothServerControllerThread = new AcceptThread();
+        bluetoothServerControllerThread.start();
     }
 
-    class BluetoothServerController extends Thread {
-        private BluetoothServerSocket bluetoothServerSocket;
+    class AcceptThread extends Thread {
+        private BluetoothServerSocket mmServerSocket;
 
-        BluetoothServerController () throws IOException {
-            bluetoothServerSocket = BluetoothAdapter.getDefaultAdapter().listenUsingRfcommWithServiceRecord("LeapFrogChat", MainActivity.BLUETOOTH_UUID);
+        AcceptThread() {
+            BluetoothServerSocket tmp = null;
+
+            try {
+                tmp = bluetoothAdapter.listenUsingRfcommWithServiceRecord("LeapFrogChat", MainActivity.BLUETOOTH_UUID);
+            } catch (IOException e) {
+                Log.e("ChatActivity", "Socket's listen() method failed", e);
+            }
+
+            mmServerSocket = tmp;
         }
 
         @Override
         public void run(){
+            BluetoothSocket socket = null;
+
             while(true){
                 try {
-                    BluetoothSocket bluetoothSocket = bluetoothServerSocket.accept();
+                    socket = mmServerSocket.accept();
 
-                    if(bluetoothSocket != null){
-                        bluetoothServerThread = new BluetoothServer(bluetoothSocket);
+                    if (socket != null) {
+                        bluetoothServerThread = new BluetoothServer(socket);
                         bluetoothServerThread.start();
+                        mmServerSocket.close();
+                        break;
                     }
                 } catch (IOException e){
                     break;
                 }
+            }
+        }
+
+        public void cancel() {
+            try {
+                mmServerSocket.close();
+            } catch (IOException e) {
+                Log.e("ChatActivity", "Could not close the connect socket", e);
             }
         }
     }
@@ -174,26 +186,60 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-    class BluetoothClient extends Thread {
-        private BluetoothSocket socket;
+    class ConnectThread extends Thread {
+        private final BluetoothSocket mmSocket;
+        private final BluetoothDevice mmDevice;
 
-        BluetoothClient(BluetoothDevice device) throws IOException {
-            socket = device.createInsecureRfcommSocketToServiceRecord(MainActivity.BLUETOOTH_UUID);
+        ConnectThread(BluetoothDevice device) {
+            BluetoothSocket tmp = null;
+            mmDevice = device;
+
+            try {
+                tmp = device.createRfcommSocketToServiceRecord(MainActivity.BLUETOOTH_UUID);
+            } catch (IOException e) {
+                Log.e("ChatActivity", "Socket create method failed");
+            }
+
+            mmSocket = tmp;
         }
 
         @Override
         public void run(){
-            try {
-                socket.connect();
-                OutputStream outputStream = socket.getOutputStream();
+            bluetoothAdapter.cancelDiscovery();
 
-                outputStream.write(message.getBytes());
-                outputStream.write(0);
-                outputStream.flush();
-                outputStream.close();
-                socket.close();
+            try {
+                mmSocket.connect();
+
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            OutputStream outputStream = mmSocket.getOutputStream();
+
+                            outputStream.write(message.getBytes());
+                            outputStream.write(0);
+                            outputStream.flush();
+                            outputStream.close();
+                            mmSocket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.run();
             } catch (IOException e) {
-                e.printStackTrace();
+                try {
+                    mmSocket.close();
+                } catch(IOException closeException) {
+                    Log.e("ChatActivity", "Could not close the client socket");
+                }
+            }
+        }
+
+        public void cancel() {
+            try {
+                mmSocket.close();
+            } catch(IOException closeException) {
+                Log.e("ChatActivity", "Could not close the client socket");
             }
         }
     }
