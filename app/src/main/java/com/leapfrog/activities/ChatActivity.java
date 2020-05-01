@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import com.leapfrog.MainActivity;
 import com.leapfrog.adapter.MessageListAdapter;
+import com.leapfrog.database.LeaperDatabase;
 import com.leapfrog.model.Message;
 import com.leapfrogandroid.R;
 
@@ -76,6 +77,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -114,6 +116,25 @@ public class ChatActivity extends AppCompatActivity {
                     break;
                 }
             }
+        }
+    }
+
+    public class AddMessage extends AppCompatActivity {
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_private_messages);
+
+
+            final EditText msg = findViewById(R.id.edittext_chatbox);
+
+            Button sendMessage = findViewById(R.id.button_chatbox_send);
+            sendMessage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LeaperDatabase.getInstance(ChatActivity.this).insertTable2Data(msg.getText().toString());
+                }
+            });
         }
     }
 

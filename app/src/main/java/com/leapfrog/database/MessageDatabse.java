@@ -7,8 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 public class MessageDatabse extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "Messages.db";
-    public static final String TABLE_NAME = "Messages";
+    public static final String TABLE_NAME2 = "Messages";
     public static final String COL1 = "msgID";
     public static final String COL2 = "usrID";
     public static final String COL3 = "msg";
@@ -20,12 +19,12 @@ public class MessageDatabse extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME + "(msgID INTEGER PRIMARY KEY AUTOINCREMENT, usrID INTEGER, msg TEXT)");
+        db.execSQL("create table " + TABLE_NAME2 + "(msgID INTEGER PRIMARY KEY AUTOINCREMENT, usrID INTEGER, msg TEXT)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME2);
         onCreate(db);
     }
 }

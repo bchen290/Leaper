@@ -23,7 +23,7 @@ public class RegistrationActivity extends AppCompatActivity {
         submitRegistration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LeaperDatabase.getInstance(RegistrationActivity.this).insertData(firstName.getText().toString(),
+                LeaperDatabase.getInstance(RegistrationActivity.this).insertTable1Data(firstName.getText().toString(),
                         lastName.getText().toString(), userName.getText().toString(), passWord.getText().toString(),
                         email.getText().toString());
             }

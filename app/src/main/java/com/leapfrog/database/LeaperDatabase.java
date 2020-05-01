@@ -16,6 +16,9 @@ public class LeaperDatabase extends SQLiteOpenHelper {
     public static final String COL4 = "Username";
     public static final String COL5 = "Password";
     public static final String COL6 = "Email";
+    public static final String TABLE_NAME2 = "Messages";
+    public static final String COL2_1 = "msgID";
+    public static final String COL2_2 = "msg";
     private static LeaperDatabase mInstance;
 
     public LeaperDatabase(@Nullable Context context) {
@@ -26,11 +29,13 @@ public class LeaperDatabase extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, First TEXT, Last TEXT, Username TEXT, Password TEXT, Email TEXT)");
+        db.execSQL("create table 2" + TABLE_NAME2 + "(msgID INTEGER PRIMARY KEY AUTOINCREMENT, msg TEXT)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME2);
         onCreate(db);
     }
 
@@ -41,7 +46,7 @@ public class LeaperDatabase extends SQLiteOpenHelper {
         return mInstance;
     }
 
-    public boolean insertData(String First,String Last, String Username, String Password, String Email){
+    public boolean insertTable1Data(String First,String Last, String Username, String Password, String Email){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL2, First);
@@ -56,6 +61,19 @@ public class LeaperDatabase extends SQLiteOpenHelper {
             return false;
         }
         else{
+            return true;
+        }
+    }
+    public boolean insertTable2Data(String msg) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL2_2, msg);
+
+        long result = db.insert(TABLE_NAME2, null, contentValues);
+
+        if (result == -1) {
+            return false;
+        } else {
             return true;
         }
     }
