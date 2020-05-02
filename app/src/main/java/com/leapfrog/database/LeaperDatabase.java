@@ -5,6 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.leapfrog.model.Message;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
 
 import androidx.annotation.Nullable;
 
@@ -13,6 +16,10 @@ public class LeaperDatabase extends SQLiteOpenHelper {
 
     private ProfileTable profileTable;
     private MessageTable messageTable;
+
+    private MongoClient mongoClient = MongoClients.create(
+            "mongodb+srv://bc844:QUuxsbOimPOFW8nm@cluster0-rfvxr.mongodb.net/Leaper?retryWrites=true&w=majority");
+    private MongoDatabase database = mongoClient.getDatabase("Leaper");
 
     private static LeaperDatabase mInstance;
 
