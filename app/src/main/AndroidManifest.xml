@@ -42,5 +42,6 @@
             </intent-filter>
         </activity>
         <activity android:name="com.leapfrog.activities.ChatActivity" />
+        <activity android:name="com.leapfrog.activities.RegistrationActivity" />
     </application>
 </manifest>

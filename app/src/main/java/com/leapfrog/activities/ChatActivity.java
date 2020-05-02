@@ -14,6 +14,7 @@ import com.leapfrog.MainActivity;
 import com.leapfrog.adapter.MessageListAdapter;
 import com.leapfrog.database.LeaperDatabase;
 import com.leapfrog.model.Message;
+import com.leapfrog.model.User;
 import com.leapfrogandroid.R;
 
 import java.io.IOException;
@@ -35,7 +36,7 @@ public class ChatActivity extends AppCompatActivity {
 
     public BluetoothAdapter bluetoothAdapter;
 
-    private volatile String message = "";
+    private volatile String messageString = "";
     public volatile Thread bluetoothClientThread, bluetoothServerThread, bluetoothServerControllerThread;
 
     @Override
@@ -60,17 +61,22 @@ public class ChatActivity extends AppCompatActivity {
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                message = mMessageEditText.getText().toString();
+                messageString = mMessageEditText.getText().toString();
 
-                if(!message.isEmpty()) {
+                if(!messageString.isEmpty()) {
+                    Message message = new Message();
+                    message.setMessage(messageString);
+                    message.setSender(new User("", "", ""));
+
                     mChatAdapter.sendMessage(message);
 
                     bluetoothClientThread = new ConnectThread(BluetoothAdapter.getDefaultAdapter().getRemoteDevice(macID));
                     bluetoothClientThread.start();
 
                     mMessageEditText.setText("");
+
+                    LeaperDatabase.getInstance(ChatActivity.this).insertMessageData(message);
                 }
-                LeaperDatabase.getInstance(ChatActivity.this).insertTable2Data(message);
             }
         });
 
@@ -216,7 +222,7 @@ public class ChatActivity extends AppCompatActivity {
                         try {
                             OutputStream outputStream = mmSocket.getOutputStream();
 
-                            outputStream.write(message.getBytes());
+                            outputStream.write(messageString.getBytes());
                             outputStream.write(0);
                             outputStream.flush();
                             outputStream.close();

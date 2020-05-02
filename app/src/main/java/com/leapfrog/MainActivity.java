@@ -17,12 +17,12 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.leapfrog.activities.ChatActivity;
 import com.leapfrog.bluetooth.BluetoothHelper;
-import com.leapfrog.database.AppDatabase;
 import com.leapfrog.database.LeaperDatabase;
 import com.leapfrog.model.ChatSessions;
 import com.leapfrog.model.User;
 import com.leapfrogandroid.R;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -79,7 +79,9 @@ public class MainActivity extends AppCompatActivity {
         otherUser = new User("OtherUser", "None", UUID.randomUUID().toString());
 
         chatSessionListView = findViewById(R.id.chat_sessions);
-        chatSessionList = AppDatabase.getInstance(getApplicationContext()).chatSessionDao().getAll();
+
+        //TODO Get all chat sessions
+        chatSessionList = new ArrayList<>();
 
         chatSessionListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, chatSessionList);
         chatSessionListAdapter.setNotifyOnChange(true);
@@ -120,8 +122,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Clearing the data...", Toast.LENGTH_SHORT).show();
 
             // Delete the existing data
-            AppDatabase.getInstance(getApplicationContext()).messageDao().deleteAll();
-            AppDatabase.getInstance(getApplicationContext()).chatSessionDao().deleteAll();
+            LeaperDatabase.getInstance(this).deleteAll();
 
             refreshAdapterFromDatabase();
 
@@ -135,14 +136,14 @@ public class MainActivity extends AppCompatActivity {
         ChatSessions chatSessions = new ChatSessions();
         chatSessions.setChatID(user);
         chatSessions.setNickname(user);
-        AppDatabase.getInstance(getApplicationContext()).chatSessionDao().insertAll(chatSessions);
+        //AppDatabase.getInstance(getApplicationContext()).chatSessionDao().insertAll(chatSessions);
 
         refreshAdapterFromDatabase();
     }
 
     public void refreshAdapterFromDatabase(){
         chatSessionListAdapter.clear();
-        chatSessionListAdapter.addAll(AppDatabase.getInstance(getApplicationContext()).chatSessionDao().getAll());
+        //chatSessionListAdapter.addAll(AppDatabase.getInstance(getApplicationContext()).chatSessionDao().getAll());
         chatSessionListAdapter.notifyDataSetChanged();
     }
 }

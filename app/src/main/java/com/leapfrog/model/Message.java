@@ -1,24 +1,8 @@
 package com.leapfrog.model;
 
-import org.jetbrains.annotations.NotNull;
-
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.PrimaryKey;
-
-@Entity(foreignKeys = @ForeignKey(entity = ChatSessions.class,
-                                  parentColumns = "chatID",
-                                  childColumns = "chatSessionID"))
 public class Message {
-    @ColumnInfo(name = "timestamp")
-    @PrimaryKey
-    @NotNull
     public long createdAt;
-
-    @ColumnInfo(name = "message")
     private String message;
-
     private User sender;
 
     public String chatSessionID;

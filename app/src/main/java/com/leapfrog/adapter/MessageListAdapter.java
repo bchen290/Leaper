@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.leapfrog.MainActivity;
-import com.leapfrog.database.AppDatabase;
+import com.leapfrog.database.LeaperDatabase;
 import com.leapfrog.model.Message;
 import com.leapfrog.util.Utils;
 import com.leapfrogandroid.R;
@@ -38,7 +38,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     // Loads 30 most recent messages
     void refresh() {
-        messageList = AppDatabase.getInstance(context).messageDao().getLast30Messages(chatID, currentUserID);
+        //TODO Actually get messages
         notifyDataSetChanged();
     }
 
@@ -50,19 +50,13 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public synchronized void appendMessage(Message message){
         messageList.add(0, message);
-        AppDatabase.getInstance(context).messageDao().insertAll(message);
+        LeaperDatabase.getInstance(context).insertMessageData(message);
         notifyItemInserted(0);
     }
 
-    public void sendMessage(final String message){
+    public void sendMessage(final Message message){
         //TODO actually send the message
-        Message tempMessage = new Message();
-        tempMessage.setMessage(message);
-        tempMessage.setSender(MainActivity.currentUser);
-        tempMessage.setCreatedAt(System.currentTimeMillis());
-        tempMessage.setChatSessionID(chatID);
-        tempMessage.setChatSessionIDCurrent(MainActivity.currentUser.getUserID());
-        appendMessage(tempMessage);
+        appendMessage(message);
 
         notifyDataSetChanged();
     }
