@@ -17,7 +17,8 @@ public class LeaperDatabase extends SQLiteOpenHelper {
     private ProfileTable profileTable;
     private MessageTable messageTable;
 
-    private MongoClient mongoClient = MongoClients.create("mongodb+srv://bc844:F7cKRPll9EziwvwG@cluster0-rfvxr.mongodb.net/test?retryWrites=true&w=majority");
+    private MongoClient mongoClient = MongoClients.create(
+            "mongodb+srv://bc844:QUuxsbOimPOFW8nm@cluster0-rfvxr.mongodb.net/Leaper?retryWrites=true&w=majority");
     private MongoDatabase database = mongoClient.getDatabase("Leaper");
 
     private static LeaperDatabase mInstance;
