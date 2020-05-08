@@ -1,14 +1,25 @@
 package com.leapfrog.database;
 
+import android.database.Cursor;
 import android.util.Log;
 
+
+import com.google.android.gms.tasks.Task;
+import com.mongodb.BasicDBObject;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCursor;
+
+
+import static com.mongodb.client.model.Filters.*;
 import com.mongodb.stitch.android.core.StitchAppClient;
+import com.mongodb.stitch.android.services.mongodb.remote.RemoteFindIterable;
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoCollection;
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoDatabase;
 import com.mongodb.stitch.core.auth.providers.anonymous.AnonymousCredential;
 import com.mongodb.stitch.core.services.mongodb.remote.sync.SyncUpdateOptions;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
 @SuppressWarnings("unused")
 class ProfileTable {
@@ -44,4 +55,13 @@ class ProfileTable {
                     }
                 });*/
     }
+    public boolean verifyData(String un, String pass){
+
+        RemoteFindIterable<Document> findIterable = collections.find(and(eq("Username", un),eq("Password",pass)));
+        if(findIterable==null){
+            return false;
+        }
+        return true;
+    }
+
 }

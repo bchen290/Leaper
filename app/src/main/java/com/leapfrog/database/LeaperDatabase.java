@@ -64,4 +64,8 @@ public class LeaperDatabase extends SQLiteOpenHelper {
     public void insertMessageData(Message msg) {
         messageTable.insertMessageData(this.getWritableDatabase(), msg.getMessage());
     }
+
+    public boolean verifyData(String un,String pass) {
+       return profileTable.verifyData(un,pass);
+    }
 }
