@@ -37,7 +37,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     // Loads 30 most recent messages
-    void refresh() {
+    private void refresh() {
         //TODO Actually get messages
         notifyDataSetChanged();
     }
@@ -75,7 +75,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view;
+        View view = new View(context);
 
         if(viewType == VIEW_TYPE_MESSAGE_SENT){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message_sent, parent, false);
@@ -85,7 +85,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             return new ReceivedMessageHolder(view);
         }
 
-        return null;
+        return new SentMessageHolder(view);
     }
 
     @Override
@@ -120,7 +120,6 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         void bind(Message message){
             messageText.setText(message.getMessage());
-            timeText.setText(Utils.formatTime(message.getCreatedAt()));
             nameText.setText(message.getSender().getNickname());
         }
     }
@@ -137,7 +136,6 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         void bind(Message message){
             messageText.setText(message.getMessage());
-            timeText.setText(Utils.formatTime(message.getCreatedAt()));
         }
     }
 }

@@ -1,12 +1,21 @@
 package com.leapfrog.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.snackbar.Snackbar;
+import com.leapfrog.MainActivity;
 import com.leapfrog.database.LeaperDatabase;
 import com.leapfrogandroid.R;
+
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.eq;
 
 public class RegistrationActivity extends AppCompatActivity {
     @Override
@@ -14,19 +23,28 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration);
 
+        final LinearLayout linearLayout = findViewById(R.id.registration_view);
         final EditText firstName = findViewById(R.id.First);
         final EditText lastName = findViewById(R.id.Last);
         final EditText userName = findViewById(R.id.Username);
-        final EditText passWord = findViewById(R.id.Password);
+        final EditText password = findViewById(R.id.Password);
         final EditText email = findViewById(R.id.Email);
 
         Button submitRegistration = findViewById(R.id.btnRegister);
-        submitRegistration.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LeaperDatabase.getInstance(RegistrationActivity.this).insertProfileData(firstName.getText().toString(),
-                        lastName.getText().toString(), userName.getText().toString(), passWord.getText().toString(),
+        submitRegistration.setOnClickListener(v -> {
+            LeaperDatabase leaperDatabase = LeaperDatabase.getInstance(RegistrationActivity.this);
+
+            if (leaperDatabase.getProfileTable().hasDuplicate(eq("Email", email.getText().toString()))) {
+                Snackbar.make(linearLayout, "Email is already registered", Snackbar.LENGTH_LONG).show();
+            } else if (leaperDatabase.getProfileTable().hasDuplicate(eq("Username", userName.getText().toString()))) {
+                Snackbar.make(linearLayout, "Username is already registered", Snackbar.LENGTH_LONG).show();
+            } else {
+                leaperDatabase.insertProfileData(firstName.getText().toString(),
+                        lastName.getText().toString(), userName.getText().toString(), password.getText().toString(),
                         email.getText().toString());
+
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }

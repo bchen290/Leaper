@@ -8,7 +8,6 @@ import com.leapfrog.model.Message;
 import com.mongodb.stitch.android.core.Stitch;
 import com.mongodb.stitch.android.core.StitchAppClient;
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoClient;
-import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoCollection;
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoDatabase;
 
 import androidx.annotation.Nullable;
@@ -63,5 +62,9 @@ public class LeaperDatabase extends SQLiteOpenHelper {
 
     public void insertMessageData(Message msg) {
         messageTable.insertMessageData(this.getWritableDatabase(), msg.getMessage());
+    }
+
+    public ProfileTable getProfileTable(){
+        return profileTable;
     }
 }
