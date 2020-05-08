@@ -1,21 +1,15 @@
 package com.leapfrog.database;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.leapfrog.model.Message;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
 import com.mongodb.stitch.android.core.Stitch;
 import com.mongodb.stitch.android.core.StitchAppClient;
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoClient;
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoCollection;
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoDatabase;
-
-import org.bson.Document;
 
 import androidx.annotation.Nullable;
 
@@ -26,13 +20,14 @@ public class LeaperDatabase extends SQLiteOpenHelper {
     private MessageTable messageTable;
 
     private final StitchAppClient client = Stitch.initializeAppClient("leaper-oumlj");
+    private RemoteMongoClient mongoClient;
 
     private static LeaperDatabase mInstance;
 
-    public LeaperDatabase(@Nullable Context context) {
+    private LeaperDatabase(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
 
-        RemoteMongoClient mongoClient = client.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
+        mongoClient = client.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
         RemoteMongoDatabase database = mongoClient.getDatabase("Leaper");
 
         profileTable = new ProfileTable(database, client);

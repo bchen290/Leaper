@@ -2,23 +2,13 @@ package com.leapfrog.database;
 
 import android.util.Log;
 
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import com.mongodb.stitch.android.core.StitchAppClient;
-import com.mongodb.stitch.android.core.auth.StitchUser;
-import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoClient;
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoCollection;
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoDatabase;
 import com.mongodb.stitch.core.auth.providers.anonymous.AnonymousCredential;
-import com.mongodb.stitch.core.services.mongodb.remote.RemoteUpdateOptions;
-import com.mongodb.stitch.core.services.mongodb.remote.RemoteUpdateResult;
+import com.mongodb.stitch.core.services.mongodb.remote.sync.SyncUpdateOptions;
 
 import org.bson.Document;
-
-import androidx.annotation.NonNull;
 
 @SuppressWarnings("unused")
 class ProfileTable {
@@ -44,12 +34,14 @@ class ProfileTable {
                 .append("Password", password)
                 .append("Email", email);
 
-        remoteMongoClient.getAuth().loginWithCredential(new AnonymousCredential())
-                .continueWithTask(task -> collections.updateOne(null, profileDocument, new RemoteUpdateOptions().upsert(true)))
+        collections.insertOne(profileDocument);
+
+        /*remoteMongoClient.getAuth().loginWithCredential(new AnonymousCredential())
+                .continueWithTask(task -> collections.sync().updateOne(null, profileDocument, new SyncUpdateOptions().upsert(true)))
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
                         Log.d("ProfileTable", "Inserted profile document");
                     }
-                });
+                });*/
     }
 }
