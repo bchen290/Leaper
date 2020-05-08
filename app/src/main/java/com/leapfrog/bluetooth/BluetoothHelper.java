@@ -10,7 +10,7 @@ import android.content.Intent;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.leapfrog.MainActivity;
+import com.leapfrog.activities.MainActivity;
 import com.leapfrog.activities.ChatActivity;
 
 import java.util.ArrayList;

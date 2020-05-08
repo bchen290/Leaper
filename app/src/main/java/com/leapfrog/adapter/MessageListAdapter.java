@@ -7,10 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.leapfrog.MainActivity;
+import com.leapfrog.activities.MainActivity;
 import com.leapfrog.database.LeaperDatabase;
 import com.leapfrog.model.Message;
-import com.leapfrog.util.Utils;
 import com.leapfrogandroid.R;
 
 import java.util.List;

@@ -34,7 +34,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.leapfrog.MainActivity">
+        <activity android:name="com.leapfrog.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,5 +43,6 @@
         </activity>
         <activity android:name="com.leapfrog.activities.ChatActivity" />
         <activity android:name="com.leapfrog.activities.RegistrationActivity" />
+        <activity android:name="com.leapfrog.activities.LoginActivity" />
     </application>
 </manifest>

@@ -1,20 +1,18 @@
-package com.leapfrog;
+package com.leapfrog.activities;
 
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.leapfrog.activities.ChatActivity;
-import com.leapfrog.activities.RegistrationActivity;
 import com.leapfrog.bluetooth.BluetoothHelper;
 import com.leapfrog.database.LeaperDatabase;
 import com.leapfrog.model.ChatSessions;
@@ -65,6 +63,13 @@ public class MainActivity extends AppCompatActivity {
             }
 
             bluetoothHelper = new BluetoothHelper(this, bluetoothAdapter);
+        }
+
+        SharedPreferences sharedPreferences = getSharedPreferences("Authentication", MODE_PRIVATE);
+
+        if (!sharedPreferences.getBoolean("IsAuthenticated", false)) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
         }
 
         currentUser = new User("CurrentUser", "", Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));

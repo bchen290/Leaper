@@ -9,7 +9,6 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.leapfrog.MainActivity;
 import com.leapfrog.adapter.MessageListAdapter;
 import com.leapfrog.database.LeaperDatabase;
 import com.leapfrog.model.Message;
