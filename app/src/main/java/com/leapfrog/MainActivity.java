@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.leapfrog.activities.ChatActivity;
+import com.leapfrog.activities.RegistrationActivity;
 import com.leapfrog.bluetooth.BluetoothHelper;
 import com.leapfrog.database.LeaperDatabase;
 import com.leapfrog.model.ChatSessions;
@@ -106,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
             LeaperDatabase.getInstance(this).deleteAll();
 
             refreshAdapterFromDatabase();
+
+            Intent intent = new Intent(this, RegistrationActivity.class);
+            startActivity(intent);
 
             return true;
         }
