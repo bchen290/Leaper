@@ -1,22 +1,15 @@
 package com.leapfrog.database;
 
-import android.util.Log;
+import static com.mongodb.client.model.Filters.*;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.mongodb.stitch.android.core.StitchAppClient;
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteFindIterable;
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoCollection;
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoDatabase;
-import com.mongodb.stitch.android.services.mongodb.remote.SyncFindIterable;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
-
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import androidx.annotation.NonNull;
 
 @SuppressWarnings({"unused", "ConstantConditions"})
 public class ProfileTable {
@@ -58,4 +51,19 @@ public class ProfileTable {
 
          return hasDuplicate;
     }
+
+    boolean verifyData(String username, String password){
+        boolean hasUser = false;
+
+        Task result = collections.find(and(eq("Username", username), eq("Password", password))).first();
+
+        while (!result.isComplete()) { }
+
+        if (result.getResult() != null) {
+            hasUser = true;
+        }
+
+        return hasUser;
+    }
+
 }
