@@ -1,40 +1,55 @@
 package com.leapfrog.database;
 
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.stitch.android.core.StitchAppClient;
+import com.mongodb.stitch.android.core.auth.StitchUser;
+import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoClient;
+import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoCollection;
+import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoDatabase;
+import com.mongodb.stitch.core.auth.providers.anonymous.AnonymousCredential;
+import com.mongodb.stitch.core.services.mongodb.remote.RemoteUpdateOptions;
+import com.mongodb.stitch.core.services.mongodb.remote.RemoteUpdateResult;
+
+import org.bson.Document;
+
+import androidx.annotation.NonNull;
 
 @SuppressWarnings("unused")
 class ProfileTable {
-    private static final String TABLE_NAME = "Profile";
-    private static final String COL1 = "ID";
-    private static final String COL2 = "First";
-    private static final String COL3 = "Last";
-    private static final String COL4 = "Username";
-    private static final String COL5 = "Password";
-    private static final String COL6 = "Email";
+    private RemoteMongoDatabase mongoDatabase;
+    private RemoteMongoCollection<Document> collections;
+    private StitchAppClient remoteMongoClient;
 
-    void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, First TEXT, Last TEXT, Username TEXT, Password TEXT, Email TEXT)");
+    ProfileTable(RemoteMongoDatabase mongoDatabase, StitchAppClient remoteMongoClient) {
+        this.mongoDatabase = mongoDatabase;
+        this.remoteMongoClient = remoteMongoClient;
+
+        collections = mongoDatabase.getCollection("Profile");
     }
 
-    void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+    void deleteAll() {
+        collections.deleteMany(new Document());
     }
 
-    void deleteAll(SQLiteDatabase db) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-    }
+    void insertProfileData(String first, String last, String username, String password, String email){
+        final Document profileDocument = new Document("First", first)
+                .append("Last", last)
+                .append("Username", username)
+                .append("Password", password)
+                .append("Email", email);
 
-    boolean insertProfileData(SQLiteDatabase db, String first, String last, String username, String password, String email){
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(COL2, first);
-        contentValues.put(COL3, last);
-        contentValues.put(COL4, username);
-        contentValues.put(COL5, password);
-        contentValues.put(COL6, email);
-
-        long result = db.insert(TABLE_NAME, null, contentValues);
-
-        return result != -1;
+        remoteMongoClient.getAuth().loginWithCredential(new AnonymousCredential())
+                .continueWithTask(task -> collections.updateOne(null, profileDocument, new RemoteUpdateOptions().upsert(true)))
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        Log.d("ProfileTable", "Inserted profile document");
+                    }
+                });
     }
 }

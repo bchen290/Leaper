@@ -21,6 +21,11 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
 }
 
 dependencies {
@@ -32,7 +37,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
-    implementation group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.3'
+    implementation 'org.mongodb:stitch-android-sdk:4.1.0'
 
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.google.android.material:material:1.1.0'
