@@ -2,14 +2,12 @@ package com.leapfrog;
 
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -45,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothHelper bluetoothHelper;
 
-    LeaperDatabase leaperDatabase;
-
     @SuppressLint("HardwareIds")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +55,7 @@ public class MainActivity extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setTitle("Not compatible")
                     .setMessage("Your phone does not support Bluetooth")
-                    .setPositiveButton("Exit", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            System.exit(0);
-                        }
-                    })
+                    .setPositiveButton("Exit", (dialog, which) -> System.exit(0))
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
         }else{
@@ -87,24 +78,14 @@ public class MainActivity extends AppCompatActivity {
         chatSessionListAdapter.setNotifyOnChange(true);
 
         chatSessionListView.setAdapter(chatSessionListAdapter);
-        chatSessionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, ChatActivity.class);
-                intent.putExtra("ChatSession", chatSessionList.get(position).chatID);
-                startActivity(intent);
-            }
+        chatSessionListView.setOnItemClickListener((parent, view, position, id) -> {
+            Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+            intent.putExtra("ChatSession", chatSessionList.get(position).chatID);
+            startActivity(intent);
         });
 
         floatingActionButton = findViewById(R.id.floating_action_button);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bluetoothHelper.showPairedBluetoothDevices();
-            }
-        });
-
-        leaperDatabase = new LeaperDatabase(this);
+        floatingActionButton.setOnClickListener(v -> bluetoothHelper.showPairedBluetoothDevices());
     }
 
     @Override

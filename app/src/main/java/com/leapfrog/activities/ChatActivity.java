@@ -6,7 +6,6 @@ import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -27,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class ChatActivity extends AppCompatActivity {
     private MessageListAdapter mChatAdapter;
     private RecyclerView mRecyclerView;
@@ -55,28 +55,25 @@ public class ChatActivity extends AppCompatActivity {
         mLayoutManager.setReverseLayout(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mChatAdapter = new MessageListAdapter(this, new ArrayList<Message>(), macID, MainActivity.currentUser.getUserID());
+        mChatAdapter = new MessageListAdapter(this, new ArrayList<>(), macID, MainActivity.currentUser.getUserID());
         mRecyclerView.setAdapter(mChatAdapter);
 
-        mSendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                messageString = mMessageEditText.getText().toString();
+        mSendButton.setOnClickListener(v -> {
+            messageString = mMessageEditText.getText().toString();
 
-                if(!messageString.isEmpty()) {
-                    Message message = new Message();
-                    message.setMessage(messageString);
-                    message.setSender(new User("", "", ""));
+            if(!messageString.isEmpty()) {
+                Message message = new Message();
+                message.setMessage(messageString);
+                message.setSender(new User("", "", ""));
 
-                    mChatAdapter.sendMessage(message);
+                mChatAdapter.sendMessage(message);
 
-                    bluetoothClientThread = new ConnectThread(BluetoothAdapter.getDefaultAdapter().getRemoteDevice(macID));
-                    bluetoothClientThread.start();
+                bluetoothClientThread = new ConnectThread(BluetoothAdapter.getDefaultAdapter().getRemoteDevice(macID));
+                bluetoothClientThread.start();
 
-                    mMessageEditText.setText("");
+                mMessageEditText.setText("");
 
-                    LeaperDatabase.getInstance(ChatActivity.this).insertMessageData(message);
-                }
+                LeaperDatabase.getInstance(ChatActivity.this).insertMessageData(message);
             }
         });
 
@@ -94,6 +91,7 @@ public class ChatActivity extends AppCompatActivity {
         bluetoothServerControllerThread.start();
     }
 
+    @SuppressWarnings("unused")
     class AcceptThread extends Thread {
         private BluetoothServerSocket mmServerSocket;
 
@@ -111,7 +109,7 @@ public class ChatActivity extends AppCompatActivity {
 
         @Override
         public void run(){
-            BluetoothSocket socket = null;
+            BluetoothSocket socket;
 
             while(true){
                 try {
@@ -150,7 +148,7 @@ public class ChatActivity extends AppCompatActivity {
         @Override
         public void run() {
             try {
-                String text = "";
+                StringBuilder text = new StringBuilder();
 
                 while (true) {
                     int next = -1;
@@ -165,23 +163,20 @@ public class ChatActivity extends AppCompatActivity {
                         break;
                     }
 
-                    text += (char) next;
+                    text.append((char) next);
                 }
 
                 inputStream.close();
                 bluetoothSocket.close();
 
-                final String finalText = text;
-                if (!text.isEmpty()) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Message temp = new Message();
-                            temp.setCreatedAt(System.currentTimeMillis());
-                            temp.setSender(MainActivity.otherUser);
-                            temp.setMessage(finalText);
-                            mChatAdapter.appendMessage(temp);
-                        }
+                final String finalText = text.toString();
+                if (text.length() > 0) {
+                    runOnUiThread(() -> {
+                        Message temp = new Message();
+                        temp.setCreatedAt(System.currentTimeMillis());
+                        temp.setSender(MainActivity.otherUser);
+                        temp.setMessage(finalText);
+                        mChatAdapter.appendMessage(temp);
                     });
                 }
 
@@ -192,6 +187,7 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressWarnings({"unused", "TrivialFunctionalExpressionUsage"})
     class ConnectThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final BluetoothDevice mmDevice;
@@ -216,22 +212,19 @@ public class ChatActivity extends AppCompatActivity {
             try {
                 mmSocket.connect();
 
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            OutputStream outputStream = mmSocket.getOutputStream();
+                ((Runnable) () -> {
+                    try {
+                        OutputStream outputStream = mmSocket.getOutputStream();
 
-                            outputStream.write(messageString.getBytes());
-                            outputStream.write(0);
-                            outputStream.flush();
-                            outputStream.close();
-                            mmSocket.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        outputStream.write(messageString.getBytes());
+                        outputStream.write(0);
+                        outputStream.flush();
+                        outputStream.close();
+                        mmSocket.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                }.run();
+                }).run();
             } catch (IOException e) {
                 try {
                     mmSocket.close();

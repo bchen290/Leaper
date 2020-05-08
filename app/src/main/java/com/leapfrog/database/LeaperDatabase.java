@@ -5,9 +5,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.leapfrog.model.Message;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.stitch.android.core.Stitch;
+import com.mongodb.stitch.android.core.StitchAppClient;
+import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoClient;
+import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoCollection;
+import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoDatabase;
 
 import androidx.annotation.Nullable;
 
@@ -17,28 +19,28 @@ public class LeaperDatabase extends SQLiteOpenHelper {
     private ProfileTable profileTable;
     private MessageTable messageTable;
 
-    private MongoClient mongoClient = MongoClients.create(
-            "mongodb+srv://bc844:QUuxsbOimPOFW8nm@cluster0-rfvxr.mongodb.net/Leaper?retryWrites=true&w=majority");
-    private MongoDatabase database = mongoClient.getDatabase("Leaper");
+    private final StitchAppClient client = Stitch.initializeAppClient("leaper-oumlj");
+    private RemoteMongoClient mongoClient;
 
     private static LeaperDatabase mInstance;
 
-    public LeaperDatabase(@Nullable Context context) {
+    private LeaperDatabase(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
 
-        profileTable = new ProfileTable();
+        mongoClient = client.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
+        RemoteMongoDatabase database = mongoClient.getDatabase("Leaper");
+
+        profileTable = new ProfileTable(database, client);
         messageTable = new MessageTable();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        profileTable.onCreate(db);
         messageTable.onCreate(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        profileTable.onUpgrade(db, oldVersion, newVersion);
         messageTable.onUpgrade(db, oldVersion, newVersion);
         onCreate(db);
     }
@@ -51,15 +53,15 @@ public class LeaperDatabase extends SQLiteOpenHelper {
     }
 
     public void deleteAll(){
-        profileTable.deleteAll(this.getWritableDatabase());
+        profileTable.deleteAll();
         messageTable.deleteAll(this.getWritableDatabase());
     }
 
-    public boolean insertProfileData(String first, String last, String username, String password, String email) {
-        return profileTable.insertProfileData(this.getWritableDatabase(), first, last, username, password, email);
+    public void insertProfileData(String first, String last, String username, String password, String email) {
+        profileTable.insertProfileData(first, last, username, password, email);
     }
 
-    public boolean insertMessageData(Message msg) {
-        return messageTable.insertMessageData(this.getWritableDatabase(), msg.getMessage());
+    public void insertMessageData(Message msg) {
+        messageTable.insertMessageData(this.getWritableDatabase(), msg.getMessage());
     }
 }
