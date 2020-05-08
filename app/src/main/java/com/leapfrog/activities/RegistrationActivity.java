@@ -1,6 +1,7 @@
 package com.leapfrog.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,6 +42,12 @@ public class RegistrationActivity extends AppCompatActivity {
                 leaperDatabase.insertProfileData(firstName.getText().toString(),
                         lastName.getText().toString(), userName.getText().toString(), password.getText().toString(),
                         email.getText().toString());
+
+                SharedPreferences sharedPreferences = getSharedPreferences("Authentication", MODE_PRIVATE);
+                sharedPreferences.edit()
+                        .putBoolean("IsAuthenticated", true)
+                        .putString("Email", email.getText().toString())
+                        .apply();
 
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
