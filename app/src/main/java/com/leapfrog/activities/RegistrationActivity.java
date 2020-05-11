@@ -29,13 +29,17 @@ public class RegistrationActivity extends AppCompatActivity {
         final EditText lastName = findViewById(R.id.Last);
         final EditText userName = findViewById(R.id.Username);
         final EditText password = findViewById(R.id.Password);
+        final EditText passwordConfirmation = findViewById(R.id.Confirmation);
         final EditText email = findViewById(R.id.Email);
 
         Button submitRegistration = findViewById(R.id.btnRegister);
         submitRegistration.setOnClickListener(v -> {
-
             if (Utils.checkIfEditTextIsEmpty(firstName) || Utils.checkIfEditTextIsEmpty(lastName) || Utils.checkIfEditTextIsEmpty(userName) || Utils.checkIfEditTextIsEmpty(password) || Utils.checkIfEditTextIsEmpty(email)) {
                 Snackbar.make(linearLayout, "This field can not be blank", Snackbar.LENGTH_LONG);
+            }
+
+            if (password.getText().toString().equals(passwordConfirmation.getText().toString())){
+                Snackbar.make(linearLayout, "Password doesn't match", Snackbar.LENGTH_LONG);
             }
 
             LeaperDatabase leaperDatabase = LeaperDatabase.getInstance(RegistrationActivity.this);
