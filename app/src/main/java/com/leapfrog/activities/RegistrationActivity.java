@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.leapfrog.database.LeaperDatabase;
+import com.leapfrog.util.Utils;
 import com.leapfrogandroid.R;
 
 import static com.mongodb.client.model.Filters.and;
@@ -32,6 +33,11 @@ public class RegistrationActivity extends AppCompatActivity {
 
         Button submitRegistration = findViewById(R.id.btnRegister);
         submitRegistration.setOnClickListener(v -> {
+
+            if (Utils.checkIfEditTextIsEmpty(firstName) || Utils.checkIfEditTextIsEmpty(lastName) || Utils.checkIfEditTextIsEmpty(userName) || Utils.checkIfEditTextIsEmpty(password) || Utils.checkIfEditTextIsEmpty(email)) {
+                Snackbar.make(linearLayout, "This field can not be blank", Snackbar.LENGTH_LONG);
+            }
+
             LeaperDatabase leaperDatabase = LeaperDatabase.getInstance(RegistrationActivity.this);
 
             if (leaperDatabase.getProfileTable().hasDuplicate(eq("Email", email.getText().toString()))) {
