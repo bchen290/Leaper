@@ -1,33 +1,35 @@
 package com.leapfrog.database;
 
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
+import com.leapfrog.model.Message;
+import com.mongodb.stitch.android.core.StitchAppClient;
+import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoCollection;
+import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoDatabase;
 
+import org.bson.Document;
+
+@SuppressWarnings({"unused", "FieldCanBeLocal"})
 class MessageTable {
-    private static final String TABLE_NAME = "Messages";
+    private RemoteMongoDatabase mongoDatabase;
+    private RemoteMongoCollection<Document> collections;
+    private StitchAppClient remoteMongoClient;
 
-    private static final String COL1 = "MessageID";
-    private static final String COL2 = "UserID";
-    private static final String COL3 = "Message";
+    MessageTable(RemoteMongoDatabase mongoDatabase, StitchAppClient remoteMongoClient) {
+        this.mongoDatabase = mongoDatabase;
+        this.remoteMongoClient = remoteMongoClient;
 
-    void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME + "(MessageID INTEGER PRIMARY KEY AUTOINCREMENT, UserID TEXT, Message TEXT)");
+        collections = mongoDatabase.getCollection("Message");
     }
 
-    void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+    void deleteAll() {
+        //collections.deleteMany(new Document());
     }
 
-    void deleteAll(SQLiteDatabase db){
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-    }
+    void insertMessageData(Message message){
+        final Document profileDocument = new Document("Timestamp", message.getCreatedAt())
+                .append("From", message.getSender().getUserID())
+                .append("To", message.getReceiver().getUserID())
+                .append("Message", message.getMessage());
 
-    boolean insertMessageData(SQLiteDatabase db, String msg) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(COL2, msg);
-
-        long result = db.insert(TABLE_NAME, null, contentValues);
-
-        return result != -1;
+        collections.insertOne(profileDocument);
     }
 }

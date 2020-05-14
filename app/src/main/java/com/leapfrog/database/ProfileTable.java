@@ -4,14 +4,13 @@ import static com.mongodb.client.model.Filters.*;
 
 import com.google.android.gms.tasks.Task;
 import com.mongodb.stitch.android.core.StitchAppClient;
-import com.mongodb.stitch.android.services.mongodb.remote.RemoteFindIterable;
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoCollection;
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoDatabase;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
-@SuppressWarnings({"unused", "ConstantConditions"})
+@SuppressWarnings({"unused"})
 public class ProfileTable {
     private RemoteMongoDatabase mongoDatabase;
     private RemoteMongoCollection<Document> collections;

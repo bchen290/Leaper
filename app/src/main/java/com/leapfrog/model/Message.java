@@ -1,12 +1,10 @@
 package com.leapfrog.model;
 
 public class Message {
-    public long createdAt;
+    private long createdAt;
     private String message;
     private User sender;
-
-    public String chatSessionID;
-    public String chatSessionIDCurrent;
+    private User receiver;
 
     public String getMessage() {
         return message;
@@ -32,19 +30,11 @@ public class Message {
         this.createdAt = createdAt;
     }
 
-    public String getChatSessionID(){
-        return chatSessionID;
+    public User getReceiver() {
+        return receiver;
     }
 
-    public void setChatSessionID(String chatSessionID){
-        this.chatSessionID = chatSessionID;
-    }
-
-    public String getChatSessionIDCurrent(){
-        return chatSessionIDCurrent;
-    }
-
-    public void setChatSessionIDCurrent(String chatSessionIDCurrent){
-        this.chatSessionIDCurrent = chatSessionIDCurrent;
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
     }
 }
