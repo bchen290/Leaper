@@ -1,9 +1,7 @@
 package com.leapfrog.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Base64;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -16,15 +14,6 @@ import com.leapfrog.database.LeaperDatabase;
 import com.leapfrog.util.Authentication;
 import com.leapfrog.util.Utils;
 import com.leapfrogandroid.R;
-import com.scottyab.aescrypt.AESCrypt;
-
-import java.security.GeneralSecurityException;
-import java.security.Key;
-
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-
-import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 
 public class RegistrationActivity extends AppCompatActivity {

@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Button login = findViewById(R.id.btnLogin);
         login.setOnClickListener(v -> {
-            boolean validUser = LeaperDatabase.getInstance(LoginActivity.this).verifyData(userName.getText().toString(), Utils.passwordEncryption(password.getText().toString()));
+            boolean validUser = LeaperDatabase.getInstance(LoginActivity.this).verifyData(username.getText().toString(), Utils.passwordEncryption(password.getText().toString()));
 
             if (validUser) {
                 Authentication.authenticate(this, username.getText().toString());
