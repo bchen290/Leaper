@@ -17,6 +17,7 @@ import com.leapfrog.bluetooth.BluetoothHelper;
 import com.leapfrog.database.LeaperDatabase;
 import com.leapfrog.model.ChatSessions;
 import com.leapfrog.model.User;
+import com.leapfrog.util.Utils;
 import com.leapfrogandroid.R;
 
 import java.util.ArrayList;
@@ -48,21 +49,35 @@ public class ConversationsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.conversations_screen);
 
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        SharedPreferences internetConnectivity = getSharedPreferences("InternetConnectivity", MODE_PRIVATE);
 
-        if (bluetoothAdapter == null){
-            new AlertDialog.Builder(this)
-                    .setTitle("Not compatible")
-                    .setMessage("Your phone does not support Bluetooth")
-                    .setPositiveButton("Exit", (dialog, which) -> System.exit(0))
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
-        }else{
-            if(!bluetoothAdapter.isEnabled()){
-                startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 0);
+        if (Utils.hasNetworkAvailable(this)) {
+            internetConnectivity.edit()
+                    .putBoolean("HasInternet", true)
+                    .apply();
+        } else {
+            internetConnectivity.edit()
+                    .putBoolean("HasInternet", false)
+                    .apply();
+        }
+
+        if (Utils.checkCachedInternet(this)) {
+            bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+            if (bluetoothAdapter == null) {
+                new AlertDialog.Builder(this)
+                        .setTitle("Not compatible")
+                        .setMessage("Your phone does not support Bluetooth")
+                        .setPositiveButton("Exit", (dialog, which) -> System.exit(0))
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            } else {
+                if (!bluetoothAdapter.isEnabled()) {
+                    startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 0);
+                }
+
+                bluetoothHelper = new BluetoothHelper(this, bluetoothAdapter);
             }
-
-            bluetoothHelper = new BluetoothHelper(this, bluetoothAdapter);
         }
 
         SharedPreferences sharedPreferences = getSharedPreferences("Authentication", MODE_PRIVATE);

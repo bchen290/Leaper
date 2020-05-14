@@ -54,9 +54,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public void sendMessage(final Message message){
-        //TODO actually send the message
         appendMessage(message);
-
         notifyDataSetChanged();
     }
 

@@ -1,6 +1,7 @@
 package com.leapfrog.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,7 +13,6 @@ import com.leapfrog.database.LeaperDatabase;
 import com.leapfrogandroid.R;
 
 public class LoginActivity extends AppCompatActivity {
-    boolean logged =false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,16 +31,16 @@ public class LoginActivity extends AppCompatActivity {
         Button login = findViewById(R.id.btnLogin);
         login.setOnClickListener(v -> {
             boolean validUser = LeaperDatabase.getInstance(LoginActivity.this).verifyData(userName.getText().toString(), password.getText().toString());
-            if(validUser==false){
-                wrong.setText("Wrong Username or Password");
+
+            if (validUser) {
+                SharedPreferences sharedPreferences = getSharedPreferences("Authentication", MODE_PRIVATE);
+                sharedPreferences.edit()
+                        .putBoolean("IsAuthenticated", true)
+                        .apply();
+            }else{
+                wrong.setText(R.string.wrong_username_or_password);
                 wrong.setTextSize(25);
             }
-            else{
-                logged =true;
-            }
         });
-    }
-    public boolean isLoggedin(){
-        return logged;
     }
 }

@@ -13,6 +13,7 @@ import com.leapfrog.adapter.MessageListAdapter;
 import com.leapfrog.database.LeaperDatabase;
 import com.leapfrog.model.Message;
 import com.leapfrog.model.User;
+import com.leapfrog.util.Utils;
 import com.leapfrogandroid.R;
 
 import java.io.IOException;
@@ -67,8 +68,10 @@ public class ChatActivity extends AppCompatActivity {
 
                 mChatAdapter.sendMessage(message);
 
-                bluetoothClientThread = new ConnectThread(BluetoothAdapter.getDefaultAdapter().getRemoteDevice(macID));
-                bluetoothClientThread.start();
+                if (!Utils.checkCachedInternet(this)) {
+                    bluetoothClientThread = new ConnectThread(BluetoothAdapter.getDefaultAdapter().getRemoteDevice(macID));
+                    bluetoothClientThread.start();
+                }
 
                 mMessageEditText.setText("");
 
@@ -186,7 +189,6 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-    @SuppressWarnings({"unused", "TrivialFunctionalExpressionUsage"})
     class ConnectThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final BluetoothDevice mmDevice;

@@ -30,17 +30,16 @@ public class LeaperDatabase extends SQLiteOpenHelper {
         RemoteMongoDatabase database = mongoClient.getDatabase("Leaper");
 
         profileTable = new ProfileTable(database, client);
-        messageTable = new MessageTable();
+        messageTable = new MessageTable(database, client);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        messageTable.onCreate(db);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        messageTable.onUpgrade(db, oldVersion, newVersion);
         onCreate(db);
     }
 
@@ -53,7 +52,7 @@ public class LeaperDatabase extends SQLiteOpenHelper {
 
     public void deleteAll(){
         profileTable.deleteAll();
-        messageTable.deleteAll(this.getWritableDatabase());
+        messageTable.deleteAll();
     }
 
     public void insertProfileData(String first, String last, String username, String password, String email) {
@@ -61,7 +60,7 @@ public class LeaperDatabase extends SQLiteOpenHelper {
     }
 
     public void insertMessageData(Message msg) {
-        messageTable.insertMessageData(this.getWritableDatabase(), msg.getMessage());
+        messageTable.insertMessageData(msg);
     }
 
     public ProfileTable getProfileTable() {
