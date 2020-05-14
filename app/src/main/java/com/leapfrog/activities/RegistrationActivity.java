@@ -3,6 +3,7 @@ package com.leapfrog.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Base64;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -14,6 +15,13 @@ import com.google.android.material.snackbar.Snackbar;
 import com.leapfrog.database.LeaperDatabase;
 import com.leapfrog.util.Utils;
 import com.leapfrogandroid.R;
+import com.scottyab.aescrypt.AESCrypt;
+
+import java.security.GeneralSecurityException;
+import java.security.Key;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
@@ -38,7 +46,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 Snackbar.make(linearLayout, "This field can not be blank", Snackbar.LENGTH_LONG);
             }
 
-            if (password.getText().toString().equals(passwordConfirmation.getText().toString())){
+            if (password.getText().toString().equals(passwordConfirmation.getText().toString())) {
                 Snackbar.make(linearLayout, "Password doesn't match", Snackbar.LENGTH_LONG);
             }
 
@@ -50,7 +58,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 Snackbar.make(linearLayout, "Username is already registered", Snackbar.LENGTH_LONG).show();
             } else {
                 leaperDatabase.insertProfileData(firstName.getText().toString(),
-                        lastName.getText().toString(), userName.getText().toString(), password.getText().toString(),
+                        lastName.getText().toString(), userName.getText().toString(), Utils.passwordEncryption(password.getText().toString()),
                         email.getText().toString());
 
                 SharedPreferences sharedPreferences = getSharedPreferences("Authentication", MODE_PRIVATE);
@@ -71,3 +79,5 @@ public class RegistrationActivity extends AppCompatActivity {
         });
     }
 }
+
+
