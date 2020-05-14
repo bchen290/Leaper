@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.leapfrog.activities.MainActivity;
+import com.leapfrog.activities.ConversationsActivity;
 import com.leapfrog.database.LeaperDatabase;
 import com.leapfrog.model.Message;
 import com.leapfrogandroid.R;
@@ -64,7 +64,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public int getItemViewType(int position){
         Message message = messageList.get(position);
 
-        if(message.getSender().getUserID().equals(MainActivity.currentUser.getUserID())){
+        if(message.getSender().getUserID().equals(ConversationsActivity.currentUser.getUserID())){
             return VIEW_TYPE_MESSAGE_SENT;
         }else{
             return VIEW_TYPE_MESSAGE_RECEIVED;
