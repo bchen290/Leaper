@@ -54,7 +54,7 @@ public class ChatActivity extends AppCompatActivity {
         mLayoutManager.setReverseLayout(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mChatAdapter = new MessageListAdapter(this, new ArrayList<>(), macID, MainActivity.currentUser.getUserID());
+        mChatAdapter = new MessageListAdapter(this, new ArrayList<>(), macID, ConversationsActivity.currentUser.getUserID());
         mRecyclerView.setAdapter(mChatAdapter);
 
         mSendButton.setOnClickListener(v -> {
@@ -98,7 +98,7 @@ public class ChatActivity extends AppCompatActivity {
             BluetoothServerSocket tmp = null;
 
             try {
-                tmp = bluetoothAdapter.listenUsingRfcommWithServiceRecord("LeapFrogChat", MainActivity.BLUETOOTH_UUID);
+                tmp = bluetoothAdapter.listenUsingRfcommWithServiceRecord("LeapFrogChat", ConversationsActivity.BLUETOOTH_UUID);
             } catch (IOException e) {
                 Log.e("ChatActivity", "Socket's listen() method failed", e);
             }
@@ -173,7 +173,7 @@ public class ChatActivity extends AppCompatActivity {
                     runOnUiThread(() -> {
                         Message temp = new Message();
                         temp.setCreatedAt(System.currentTimeMillis());
-                        temp.setSender(MainActivity.otherUser);
+                        temp.setSender(ConversationsActivity.otherUser);
                         temp.setMessage(finalText);
                         mChatAdapter.appendMessage(temp);
                     });
@@ -196,7 +196,7 @@ public class ChatActivity extends AppCompatActivity {
             mmDevice = device;
 
             try {
-                tmp = device.createRfcommSocketToServiceRecord(MainActivity.BLUETOOTH_UUID);
+                tmp = device.createRfcommSocketToServiceRecord(ConversationsActivity.BLUETOOTH_UUID);
             } catch (IOException e) {
                 Log.e("ChatActivity", "Socket create method failed");
             }

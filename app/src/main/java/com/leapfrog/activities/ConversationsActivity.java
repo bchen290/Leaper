@@ -27,7 +27,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 @SuppressWarnings("FieldCanBeLocal")
-public class MainActivity extends AppCompatActivity {
+public class ConversationsActivity extends AppCompatActivity {
     public static final UUID BLUETOOTH_UUID = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
 
     public static User currentUser;
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.conversations_screen);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
         chatSessionListView.setAdapter(chatSessionListAdapter);
         chatSessionListView.setOnItemClickListener((parent, view, position, id) -> {
-            Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+            Intent intent = new Intent(ConversationsActivity.this, ChatActivity.class);
             intent.putExtra("ChatSession", chatSessionList.get(position).chatID);
             startActivity(intent);
         });

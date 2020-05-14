@@ -10,7 +10,7 @@ import android.content.Intent;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.leapfrog.activities.MainActivity;
+import com.leapfrog.activities.ConversationsActivity;
 import com.leapfrog.activities.ChatActivity;
 
 import java.util.ArrayList;
@@ -76,7 +76,7 @@ public class BluetoothHelper {
                     dialog.dismiss();
                     device = pairedDeviceList.get(which);
 
-                    ((MainActivity) context).onFinishUserDialog(device.getAddress());
+                    ((ConversationsActivity) context).onFinishUserDialog(device.getAddress());
 
                     bluetoothAdapter.cancelDiscovery();
                     Intent intent = new Intent(context, ChatActivity.class);

@@ -59,7 +59,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         .putString("Email", email.getText().toString())
                         .apply();
 
-                Intent intent = new Intent(this, MainActivity.class);
+                Intent intent = new Intent(this, ConversationsActivity.class);
                 startActivity(intent);
             }
         });
