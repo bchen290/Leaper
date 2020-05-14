@@ -6,6 +6,20 @@ public class Message {
     private User sender;
     private User receiver;
 
+    public Message() {
+        createdAt = 0L;
+        message = "";
+        sender = null;
+        receiver = null;
+    }
+
+    public Message(long createdAt, String message, User sender, User receiver) {
+        this.createdAt = createdAt;
+        this.message = message;
+        this.sender = sender;
+        this.receiver = receiver;
+    }
+
     public String getMessage() {
         return message;
     }

@@ -5,10 +5,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.leapfrog.model.Message;
+import com.leapfrog.model.User;
 import com.mongodb.stitch.android.core.Stitch;
 import com.mongodb.stitch.android.core.StitchAppClient;
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoClient;
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoDatabase;
+
+import java.util.ArrayList;
 
 import androidx.annotation.Nullable;
 
@@ -69,5 +72,9 @@ public class LeaperDatabase extends SQLiteOpenHelper {
 
     public boolean verifyData(String username, String password) {
        return profileTable.verifyData(username, password);
+    }
+
+    public ArrayList<Message> getMessages(User current, User other) {
+        return messageTable.getMessages(current, other);
     }
 }

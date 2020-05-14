@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.leapfrog.database.LeaperDatabase;
+import com.leapfrog.util.Authentication;
 import com.leapfrog.util.Utils;
 import com.leapfrogandroid.R;
 
@@ -27,14 +28,14 @@ public class RegistrationActivity extends AppCompatActivity {
         final LinearLayout linearLayout = findViewById(R.id.registration_view);
         final EditText firstName = findViewById(R.id.First);
         final EditText lastName = findViewById(R.id.Last);
-        final EditText userName = findViewById(R.id.Username);
+        final EditText username = findViewById(R.id.Username);
         final EditText password = findViewById(R.id.Password);
         final EditText passwordConfirmation = findViewById(R.id.Confirmation);
         final EditText email = findViewById(R.id.Email);
 
         Button submitRegistration = findViewById(R.id.btnRegister);
         submitRegistration.setOnClickListener(v -> {
-            if (Utils.checkIfEditTextIsEmpty(firstName) || Utils.checkIfEditTextIsEmpty(lastName) || Utils.checkIfEditTextIsEmpty(userName) || Utils.checkIfEditTextIsEmpty(password) || Utils.checkIfEditTextIsEmpty(email)) {
+            if (Utils.checkIfEditTextIsEmpty(firstName) || Utils.checkIfEditTextIsEmpty(lastName) || Utils.checkIfEditTextIsEmpty(username) || Utils.checkIfEditTextIsEmpty(password) || Utils.checkIfEditTextIsEmpty(email)) {
                 Snackbar.make(linearLayout, "This field can not be blank", Snackbar.LENGTH_LONG);
             }
 
@@ -46,18 +47,14 @@ public class RegistrationActivity extends AppCompatActivity {
 
             if (leaperDatabase.getProfileTable().hasDuplicate(eq("Email", email.getText().toString()))) {
                 Snackbar.make(linearLayout, "Email is already registered", Snackbar.LENGTH_LONG).show();
-            } else if (leaperDatabase.getProfileTable().hasDuplicate(eq("Username", userName.getText().toString()))) {
+            } else if (leaperDatabase.getProfileTable().hasDuplicate(eq("Username", username.getText().toString()))) {
                 Snackbar.make(linearLayout, "Username is already registered", Snackbar.LENGTH_LONG).show();
             } else {
                 leaperDatabase.insertProfileData(firstName.getText().toString(),
-                        lastName.getText().toString(), userName.getText().toString(), password.getText().toString(),
+                        lastName.getText().toString(), username.getText().toString(), password.getText().toString(),
                         email.getText().toString());
 
-                SharedPreferences sharedPreferences = getSharedPreferences("Authentication", MODE_PRIVATE);
-                sharedPreferences.edit()
-                        .putBoolean("IsAuthenticated", true)
-                        .putString("Email", email.getText().toString())
-                        .apply();
+                Authentication.authenticate(this, username.getText().toString());
 
                 Intent intent = new Intent(this, ConversationsActivity.class);
                 startActivity(intent);

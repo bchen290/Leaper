@@ -10,16 +10,17 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.leapfrog.adapter.MessageListAdapter;
-import com.leapfrog.database.LeaperDatabase;
 import com.leapfrog.model.Message;
 import com.leapfrog.model.User;
-import com.leapfrog.util.Utils;
+import com.leapfrog.util.Authentication;
+import com.leapfrog.util.InternetConnectivity;
 import com.leapfrogandroid.R;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class ChatActivity extends AppCompatActivity {
+    public static final UUID BLUETOOTH_UUID = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
+
     private MessageListAdapter mChatAdapter;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
@@ -39,13 +42,17 @@ public class ChatActivity extends AppCompatActivity {
     private volatile String messageString = "";
     public volatile Thread bluetoothClientThread, bluetoothServerThread, bluetoothServerControllerThread;
 
+    private User currentUser, otherUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private_messages);
 
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        final String macID = getIntent().getStringExtra("ChatSession");
+        String chatID = getIntent().getStringExtra("ChatSession");
+
+        currentUser = new User(Authentication.getUsername(ChatActivity.this), "", Authentication.getUsername(ChatActivity.this));
+        otherUser = new User(chatID, "", chatID);
 
         mSendButton = findViewById(R.id.button_chatbox_send);
         mMessageEditText = findViewById(R.id.edittext_chatbox);
@@ -55,7 +62,7 @@ public class ChatActivity extends AppCompatActivity {
         mLayoutManager.setReverseLayout(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mChatAdapter = new MessageListAdapter(this, new ArrayList<>(), macID, ConversationsActivity.currentUser.getUserID());
+        mChatAdapter = new MessageListAdapter(this, new ArrayList<>(), currentUser, otherUser);
         mRecyclerView.setAdapter(mChatAdapter);
 
         mSendButton.setOnClickListener(v -> {
@@ -68,14 +75,12 @@ public class ChatActivity extends AppCompatActivity {
 
                 mChatAdapter.sendMessage(message);
 
-                if (!Utils.checkCachedInternet(this)) {
-                    bluetoothClientThread = new ConnectThread(BluetoothAdapter.getDefaultAdapter().getRemoteDevice(macID));
+                if (!InternetConnectivity.checkCachedInternet(this)) {
+                    bluetoothClientThread = new ConnectThread(BluetoothAdapter.getDefaultAdapter().getRemoteDevice(chatID));
                     bluetoothClientThread.start();
                 }
 
                 mMessageEditText.setText("");
-
-                LeaperDatabase.getInstance(ChatActivity.this).insertMessageData(message);
             }
         });
 
@@ -89,8 +94,12 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        bluetoothServerControllerThread = new AcceptThread();
-        bluetoothServerControllerThread.start();
+        if (!InternetConnectivity.checkCachedInternet(this)) {
+            bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+            bluetoothServerControllerThread = new AcceptThread();
+            bluetoothServerControllerThread.start();
+        }
     }
 
     @SuppressWarnings("unused")
@@ -101,7 +110,7 @@ public class ChatActivity extends AppCompatActivity {
             BluetoothServerSocket tmp = null;
 
             try {
-                tmp = bluetoothAdapter.listenUsingRfcommWithServiceRecord("LeapFrogChat", ConversationsActivity.BLUETOOTH_UUID);
+                tmp = bluetoothAdapter.listenUsingRfcommWithServiceRecord("LeapFrogChat", BLUETOOTH_UUID);
             } catch (IOException e) {
                 Log.e("ChatActivity", "Socket's listen() method failed", e);
             }
@@ -176,7 +185,8 @@ public class ChatActivity extends AppCompatActivity {
                     runOnUiThread(() -> {
                         Message temp = new Message();
                         temp.setCreatedAt(System.currentTimeMillis());
-                        temp.setSender(ConversationsActivity.otherUser);
+                        temp.setReceiver(currentUser);
+                        temp.setSender(otherUser);
                         temp.setMessage(finalText);
                         mChatAdapter.appendMessage(temp);
                     });
@@ -189,6 +199,7 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressWarnings("unused")
     class ConnectThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final BluetoothDevice mmDevice;
@@ -198,7 +209,7 @@ public class ChatActivity extends AppCompatActivity {
             mmDevice = device;
 
             try {
-                tmp = device.createRfcommSocketToServiceRecord(ConversationsActivity.BLUETOOTH_UUID);
+                tmp = device.createRfcommSocketToServiceRecord(BLUETOOTH_UUID);
             } catch (IOException e) {
                 Log.e("ChatActivity", "Socket create method failed");
             }
@@ -213,19 +224,17 @@ public class ChatActivity extends AppCompatActivity {
             try {
                 mmSocket.connect();
 
-                ((Runnable) () -> {
-                    try {
-                        OutputStream outputStream = mmSocket.getOutputStream();
+                try {
+                    OutputStream outputStream = mmSocket.getOutputStream();
 
-                        outputStream.write(messageString.getBytes());
-                        outputStream.write(0);
-                        outputStream.flush();
-                        outputStream.close();
-                        mmSocket.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }).run();
+                    outputStream.write(messageString.getBytes());
+                    outputStream.write(0);
+                    outputStream.flush();
+                    outputStream.close();
+                    mmSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } catch (IOException e) {
                 try {
                     mmSocket.close();

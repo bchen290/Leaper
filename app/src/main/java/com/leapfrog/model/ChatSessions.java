@@ -1,9 +1,11 @@
 package com.leapfrog.model;
 
 
+import androidx.annotation.NonNull;
+
 public class ChatSessions {
     public String chatID;
-    public String nickname;
+    private String nickname = "";
 
     public void setChatID(String chatID){
         this.chatID = chatID;
@@ -13,6 +15,7 @@ public class ChatSessions {
         this.nickname = nickname;
     }
 
+    @NonNull
     public String toString() {
         return nickname;
     }

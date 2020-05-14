@@ -17,23 +17,19 @@ import com.leapfrog.bluetooth.BluetoothHelper;
 import com.leapfrog.database.LeaperDatabase;
 import com.leapfrog.model.ChatSessions;
 import com.leapfrog.model.User;
+import com.leapfrog.util.Authentication;
+import com.leapfrog.util.InternetConnectivity;
 import com.leapfrog.util.Utils;
 import com.leapfrogandroid.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class ConversationsActivity extends AppCompatActivity {
-    public static final UUID BLUETOOTH_UUID = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
-
-    public static User currentUser;
-    public static User otherUser;
-
     private ListView chatSessionListView;
     private List<ChatSessions> chatSessionList;
     private ArrayAdapter<ChatSessions> chatSessionListAdapter;
@@ -49,19 +45,11 @@ public class ConversationsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.conversations_screen);
 
-        SharedPreferences internetConnectivity = getSharedPreferences("InternetConnectivity", MODE_PRIVATE);
-
         if (Utils.hasNetworkAvailable(this)) {
-            internetConnectivity.edit()
-                    .putBoolean("HasInternet", true)
-                    .apply();
+            InternetConnectivity.cacheInternetState(this, true);
         } else {
-            internetConnectivity.edit()
-                    .putBoolean("HasInternet", false)
-                    .apply();
-        }
+            InternetConnectivity.cacheInternetState(this, false);
 
-        if (Utils.checkCachedInternet(this)) {
             bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
             if (bluetoothAdapter == null) {
@@ -80,19 +68,13 @@ public class ConversationsActivity extends AppCompatActivity {
             }
         }
 
-        SharedPreferences sharedPreferences = getSharedPreferences("Authentication", MODE_PRIVATE);
-
-        if (!sharedPreferences.getBoolean("IsAuthenticated", false)) {
+        if (!Authentication.isAuthenticated(this)) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
 
-        currentUser = new User("CurrentUser", "", Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
-        otherUser = new User("OtherUser", "None", UUID.randomUUID().toString());
-
         chatSessionListView = findViewById(R.id.chat_sessions);
 
-        //TODO Get all chat sessions
         chatSessionList = new ArrayList<>();
 
         chatSessionListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, chatSessionList);
@@ -141,14 +123,11 @@ public class ConversationsActivity extends AppCompatActivity {
         ChatSessions chatSessions = new ChatSessions();
         chatSessions.setChatID(user);
         chatSessions.setNickname(user);
-        //AppDatabase.getInstance(getApplicationContext()).chatSessionDao().insertAll(chatSessions);
-
         refreshAdapterFromDatabase();
     }
 
     public void refreshAdapterFromDatabase(){
         chatSessionListAdapter.clear();
-        //chatSessionListAdapter.addAll(AppDatabase.getInstance(getApplicationContext()).chatSessionDao().getAll());
         chatSessionListAdapter.notifyDataSetChanged();
     }
 }

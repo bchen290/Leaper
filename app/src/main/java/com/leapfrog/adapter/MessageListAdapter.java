@@ -7,9 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.leapfrog.activities.ConversationsActivity;
 import com.leapfrog.database.LeaperDatabase;
 import com.leapfrog.model.Message;
+import com.leapfrog.model.User;
+import com.leapfrog.util.Authentication;
 import com.leapfrogandroid.R;
 
 import java.util.List;
@@ -23,21 +24,22 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private Context context;
     public List<Message> messageList;
-    private String chatID;
-    private String currentUserID;
 
-    public MessageListAdapter(Context context, List<Message> messageList, String chatID, String currentUserID){
+    private User current, other;
+
+    public MessageListAdapter(Context context, List<Message> messageList, User current, User other){
         this.context = context;
         this.messageList = messageList;
-        this.chatID = chatID;
-        this.currentUserID = currentUserID;
+
+        this.current = current;
+        this.other = other;
 
         refresh();
     }
 
     // Loads 30 most recent messages
     private void refresh() {
-        //TODO Actually get messages
+        messageList.addAll(LeaperDatabase.getInstance(context).getMessages(current, other));
         notifyDataSetChanged();
     }
 
@@ -62,7 +64,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public int getItemViewType(int position){
         Message message = messageList.get(position);
 
-        if(message.getSender().getUserID().equals(ConversationsActivity.currentUser.getUserID())){
+        if(message.getSender().getUserID().equals(Authentication.getUsername(context))){
             return VIEW_TYPE_MESSAGE_SENT;
         }else{
             return VIEW_TYPE_MESSAGE_RECEIVED;
