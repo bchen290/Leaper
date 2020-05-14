@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.leapfrog.database.LeaperDatabase;
+import com.leapfrog.util.Utils;
 import com.leapfrogandroid.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -30,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Button login = findViewById(R.id.btnLogin);
         login.setOnClickListener(v -> {
-            boolean validUser = LeaperDatabase.getInstance(LoginActivity.this).verifyData(userName.getText().toString(), password.getText().toString());
+            boolean validUser = LeaperDatabase.getInstance(LoginActivity.this).verifyData(userName.getText().toString(), Utils.passwordEncryption(password.getText().toString()));
 
             if (validUser) {
                 SharedPreferences sharedPreferences = getSharedPreferences("Authentication", MODE_PRIVATE);
