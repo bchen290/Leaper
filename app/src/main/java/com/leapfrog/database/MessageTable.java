@@ -1,5 +1,7 @@
 package com.leapfrog.database;
 
+import android.util.Log;
+
 import com.google.android.gms.tasks.Task;
 import com.leapfrog.model.Message;
 import com.leapfrog.model.User;
@@ -35,12 +37,12 @@ class MessageTable {
     }
 
     void insertMessageData(Message message){
-        final Document profileDocument = new Document("Timestamp", message.getCreatedAt())
+        final Document messageDocument = new Document("Timestamp", message.getCreatedAt())
                 .append("From", message.getSender().getUserID())
                 .append("To", message.getReceiver().getUserID())
                 .append("Message", message.getMessage());
 
-        collections.insertOne(profileDocument);
+        collections.insertOne(messageDocument);
     }
 
     ArrayList<Message> getMessages(User current, User other) {

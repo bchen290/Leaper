@@ -32,10 +32,14 @@ public class LoginActivity extends AppCompatActivity {
 
         Button login = findViewById(R.id.btnLogin);
         login.setOnClickListener(v -> {
+            Utils.hideKeyboard(this);
+
             boolean validUser = LeaperDatabase.getInstance(LoginActivity.this).verifyData(username.getText().toString(), Utils.passwordEncryption(password.getText().toString()));
 
             if (validUser) {
                 Authentication.authenticate(this, username.getText().toString());
+                Intent intent = new Intent(this, ConversationsActivity.class);
+                startActivity(intent);
             }else{
                 wrong.setText(R.string.wrong_username_or_password);
                 wrong.setTextSize(25);

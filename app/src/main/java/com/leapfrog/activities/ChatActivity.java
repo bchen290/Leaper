@@ -71,7 +71,8 @@ public class ChatActivity extends AppCompatActivity {
             if(!messageString.isEmpty()) {
                 Message message = new Message();
                 message.setMessage(messageString);
-                message.setSender(new User("", "", ""));
+                message.setSender(currentUser);
+                message.setReceiver(otherUser);
 
                 mChatAdapter.sendMessage(message);
 

@@ -18,6 +18,7 @@ import com.leapfrog.util.Authentication;
 import com.leapfrog.util.InternetConnectivity;
 import com.leapfrog.util.Utils;
 import com.leapfrogandroid.R;
+import com.yarolegovich.lovelydialog.LovelyTextInputDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +86,20 @@ public class ConversationsActivity extends AppCompatActivity {
         });
 
         floatingActionButton = findViewById(R.id.floating_action_button);
-        floatingActionButton.setOnClickListener(v -> bluetoothHelper.showPairedBluetoothDevices());
+        floatingActionButton.setOnClickListener(v -> {
+            if (!InternetConnectivity.checkCachedInternet(this)) {
+                bluetoothHelper.showPairedBluetoothDevices();
+            } else {
+                new LovelyTextInputDialog(this)
+                        .setTitle("Enter username")
+                        .setConfirmButton("Ok", text -> {
+                            Intent intent = new Intent(ConversationsActivity.this, ChatActivity.class);
+                            intent.putExtra("ChatSession", "Bob");
+                            startActivity(intent);
+                        })
+                        .show();
+            }
+        });
     }
 
     @Override
@@ -111,6 +125,11 @@ public class ConversationsActivity extends AppCompatActivity {
             startActivity(intent);
 
             return true;
+        } else if (id == R.id.logout) {
+            Authentication.unauthenticate(this);
+
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

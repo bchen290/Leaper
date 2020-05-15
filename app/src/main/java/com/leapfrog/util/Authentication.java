@@ -24,4 +24,11 @@ public class Authentication {
                 .putString("Username", username)
                 .apply();
     }
+
+    public static void unauthenticate(Context context) {
+        getAuthenticationPreference(context).edit()
+                .putBoolean("IsAuthenticated", false)
+                .putString("Username", "")
+                .apply();
+    }
 }
