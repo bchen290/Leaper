@@ -94,7 +94,7 @@ public class ConversationsActivity extends AppCompatActivity {
                         .setTitle("Enter username")
                         .setConfirmButton("Ok", text -> {
                             Intent intent = new Intent(ConversationsActivity.this, ChatActivity.class);
-                            intent.putExtra("ChatSession", "Bob");
+                            intent.putExtra("ChatSession", text);
                             startActivity(intent);
                         })
                         .show();
