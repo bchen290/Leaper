@@ -8,5 +8,5 @@
         android:title="Font Size"
         android:summary="Change font size of app"
         android:max="5"
-        android:defaultValue="3" />
+        android:defaultValue="0" />
 </PreferenceScreen>
