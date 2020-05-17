@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -13,7 +14,9 @@ import com.leapfrog.adapter.MessageListAdapter;
 import com.leapfrog.model.Message;
 import com.leapfrog.model.User;
 import com.leapfrog.util.Authentication;
+import com.leapfrog.util.BaseActivity;
 import com.leapfrog.util.InternetConnectivity;
+import com.leapfrog.util.Utils;
 import com.leapfrogandroid.R;
 
 import java.io.IOException;
@@ -23,12 +26,11 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 @SuppressWarnings("FieldCanBeLocal")
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends BaseActivity {
     public static final UUID BLUETOOTH_UUID = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
 
     private MessageListAdapter mChatAdapter;
@@ -45,7 +47,7 @@ public class ChatActivity extends AppCompatActivity {
     private User currentUser, otherUser;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private_messages);
 

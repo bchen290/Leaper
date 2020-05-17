@@ -21,4 +21,5 @@
     <string name="already_registered_login_here">Already Registered? Login here</string>
     <string name="wrong_username_or_password">Wrong Username or Password</string>
     <string name="log_out">Log out</string>
+    <string name="settings">Settings</string>
 </resources>

@@ -44,5 +44,6 @@
         <activity android:name="com.leapfrog.activities.ChatActivity" />
         <activity android:name="com.leapfrog.activities.RegistrationActivity" />
         <activity android:name="com.leapfrog.activities.LoginActivity" />
+        <activity android:name="com.leapfrog.activities.SettingsActivity" />
     </application>
 </manifest>
