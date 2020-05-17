@@ -4,7 +4,6 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -16,7 +15,6 @@ import com.leapfrog.model.User;
 import com.leapfrog.util.Authentication;
 import com.leapfrog.util.BaseActivity;
 import com.leapfrog.util.InternetConnectivity;
-import com.leapfrog.util.Utils;
 import com.leapfrogandroid.R;
 
 import java.io.IOException;
@@ -49,7 +47,7 @@ public class ChatActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_private_messages);
+        setContentView(R.layout.activity_chat);
 
         String chatID = getIntent().getStringExtra("ChatSession");
 
