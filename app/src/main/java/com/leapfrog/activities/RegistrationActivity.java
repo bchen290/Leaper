@@ -19,7 +19,7 @@ public class RegistrationActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.registration);
+        setContentView(R.layout.activity_registration);
 
         final LinearLayout linearLayout = findViewById(R.id.registration_view);
         final EditText firstName = findViewById(R.id.First);

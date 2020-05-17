@@ -16,7 +16,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.activity_login);
 
         final TextView username = findViewById(R.id.Username);
         final EditText password = findViewById(R.id.Password);
