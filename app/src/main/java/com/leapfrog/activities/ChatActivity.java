@@ -50,6 +50,7 @@ public class ChatActivity extends BaseActivity {
         setContentView(R.layout.activity_chat);
 
         String chatID = getIntent().getStringExtra("ChatSession");
+        setupToolbar(chatID);
 
         currentUser = new User(Authentication.getUsername(ChatActivity.this), "", Authentication.getUsername(ChatActivity.this));
         otherUser = new User(chatID, "", chatID);

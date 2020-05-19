@@ -43,6 +43,8 @@ public class ConversationsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversations);
 
+        setupToolbarNoUp("Leaper");
+
         if (Utils.hasNetworkAvailable(this)) {
             InternetConnectivity.cacheInternetState(this, true);
         } else {
@@ -130,9 +132,13 @@ public class ConversationsActivity extends BaseActivity {
 
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+
+            return true;
         } else if (id == R.id.settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
+
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
