@@ -65,4 +65,17 @@ public class ProfileTable {
         return hasUser;
     }
 
+    public String getName(String username){
+        String full_name = "";
+
+        Task<Document> result = collections.find(eq("Username", username)).first();
+
+        while (!result.isComplete()) { }
+
+        if (result.getResult() != null) {
+            full_name = result.getResult().getString("First") + " " + result.getResult().getString("Last");
+        }
+
+        return full_name;
+    }
 }
