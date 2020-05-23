@@ -1,24 +1,22 @@
 package com.leapfrog.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.leapfrog.database.LeaperDatabase;
+import com.leapfrog.util.BaseActivity;
 import com.leapfrog.util.Utils;
 import com.leapfrog.util.Authentication;
 import com.leapfrogandroid.R;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.activity_login);
 
         final TextView username = findViewById(R.id.Username);
         final EditText password = findViewById(R.id.Password);

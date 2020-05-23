@@ -2,8 +2,10 @@ package com.leapfrog.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -43,5 +45,11 @@ public class Utils {
             view = new View(activity);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    static Context adjustFontSize(Context context) {
+        Configuration configuration = context.getResources().getConfiguration();
+        configuration.fontScale = (float)(1 + PreferenceManager.getDefaultSharedPreferences(context).getInt("fontSize", 0) / 10.0);
+        return context.createConfigurationContext(configuration);
     }
 }

@@ -4,5 +4,5 @@
     <exclude
         domain="database"
         path="Leaper.db" />
-    <!-- Exclude specific shared preferences that contain GCM registration Id -->
+    <!-- Exclude specific shared preferences that contain GCM activity_registration Id -->
 </full-backup-content>

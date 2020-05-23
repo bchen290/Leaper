@@ -6,13 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        layout="@layout/toolbar" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_message_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toTopOf="@id/chatbox_separator"
         android:layout_marginBottom="20dp"/>
 
@@ -28,7 +31,7 @@
 
     <LinearLayout
         android:id="@+id/layout_chatbox"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffff"
         android:minHeight="48dp"
@@ -44,7 +47,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_weight="1"
+            android:layout_weight="4"
             android:autofillHints=""
             android:background="@android:color/transparent"
             android:hint="@string/enter_message"
@@ -55,14 +58,15 @@
 
         <Button
             android:id="@+id/button_chatbox_send"
-            android:layout_width="64dp"
+            android:layout_width="0dp"
             android:layout_height="48dp"
+            android:layout_weight="1"
             android:layout_gravity="bottom"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:gravity="center"
             android:text="@string/send"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:focusable="true" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

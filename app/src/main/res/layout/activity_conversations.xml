@@ -5,13 +5,28 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <include layout="@layout/toolbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"/>
+
+    <TextView
+        android:id="@+id/no_message_found_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_messages_found"
+        android:textSize="40sp"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
     <ListView
         android:id="@+id/chat_sessions"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:orientation="vertical"
-        tools:context="com.leapfrogandroid.MainActivity">
-    </ListView>
+        app:layout_anchor="@id/toolbar"
+        app:layout_anchorGravity="bottom"
+        tools:context="com.leapfrogandroid.MainActivity" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_action_button"

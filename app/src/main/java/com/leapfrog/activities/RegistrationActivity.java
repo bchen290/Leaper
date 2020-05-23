@@ -7,20 +7,19 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.snackbar.Snackbar;
 import com.leapfrog.database.LeaperDatabase;
 import com.leapfrog.util.Authentication;
+import com.leapfrog.util.BaseActivity;
 import com.leapfrog.util.Utils;
 import com.leapfrogandroid.R;
 import static com.mongodb.client.model.Filters.eq;
 
-public class RegistrationActivity extends AppCompatActivity {
+public class RegistrationActivity extends BaseActivity {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.registration);
+        setContentView(R.layout.activity_registration);
 
         final LinearLayout linearLayout = findViewById(R.id.registration_view);
         final EditText firstName = findViewById(R.id.First);

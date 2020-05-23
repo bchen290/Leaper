@@ -15,6 +15,7 @@ import com.leapfrog.bluetooth.BluetoothHelper;
 import com.leapfrog.database.LeaperDatabase;
 import com.leapfrog.model.ChatSessions;
 import com.leapfrog.util.Authentication;
+import com.leapfrog.util.BaseActivity;
 import com.leapfrog.util.InternetConnectivity;
 import com.leapfrog.util.Utils;
 import com.leapfrogandroid.R;
@@ -24,10 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 @SuppressWarnings("FieldCanBeLocal")
-public class ConversationsActivity extends AppCompatActivity {
+public class ConversationsActivity extends BaseActivity {
     private ListView chatSessionListView;
     private List<ChatSessions> chatSessionList;
     private ArrayAdapter<ChatSessions> chatSessionListAdapter;
@@ -39,9 +39,11 @@ public class ConversationsActivity extends AppCompatActivity {
 
     @SuppressLint("HardwareIds")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.conversations_screen);
+        setContentView(R.layout.activity_conversations);
+
+        setupToolbarNoUp("Leaper");
 
         if (Utils.hasNetworkAvailable(this)) {
             InternetConnectivity.cacheInternetState(this, true);
@@ -94,7 +96,7 @@ public class ConversationsActivity extends AppCompatActivity {
                         .setTitle("Enter username")
                         .setConfirmButton("Ok", text -> {
                             Intent intent = new Intent(ConversationsActivity.this, ChatActivity.class);
-                            intent.putExtra("ChatSession", "Bob");
+                            intent.putExtra("ChatSession", text);
                             startActivity(intent);
                         })
                         .show();
@@ -130,6 +132,13 @@ public class ConversationsActivity extends AppCompatActivity {
 
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+
+            return true;
+        } else if (id == R.id.settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
