@@ -41,8 +41,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.leapfrog.activities.ChatActivity" />
-        <activity android:name="com.leapfrog.activities.RegistrationActivity" />
+        <activity
+            android:name="com.leapfrog.activities.ChatActivity"
+            android:parentActivityName="com.leapfrog.activities.ConversationsActivity"  />
+        <activity
+            android:name="com.leapfrog.activities.RegistrationActivity"
+            android:parentActivityName="com.leapfrog.activities.LoginActivity"/>
         <activity android:name="com.leapfrog.activities.LoginActivity" />
+        <activity
+            android:name="com.leapfrog.activities.SettingsActivity"
+            android:parentActivityName="com.leapfrog.activities.ConversationsActivity"/>
     </application>
 </manifest>
