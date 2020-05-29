@@ -18,6 +18,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        if (SettingsPreference.getColorBlindMode(this)) {
+            setTheme(R.style.colorBlind);
+        }
+
         super.onCreate(savedInstanceState);
         Utils.adjustFontSize(this);
     }

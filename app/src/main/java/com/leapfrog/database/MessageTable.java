@@ -3,6 +3,7 @@ package com.leapfrog.database;
 import android.util.Log;
 
 import com.google.android.gms.tasks.Task;
+import com.leapfrog.model.ChatSessions;
 import com.leapfrog.model.Message;
 import com.leapfrog.model.User;
 import com.mongodb.stitch.android.core.StitchAppClient;
@@ -45,7 +46,28 @@ class MessageTable {
         collections.insertOne(messageDocument);
     }
 
-    ArrayList<Message> getMessages(User current, User other) {
+    ArrayList<ChatSessions> getChatSessions(User current) {
+        ArrayList<Document> documentArrayList = new ArrayList<>();
+        ArrayList<ChatSessions> messageArrayList = new ArrayList<>();
+
+        RemoteFindIterable<Document> documentFound = collections.find(or(eq("From", current.getUserID()), eq("To", current.getUserID())));
+
+        Task task = documentFound.into(documentArrayList);
+
+        while(!task.isComplete()) {}
+
+        for (Document document : documentArrayList) {
+            if (document.getString("From").equals(current.getUserID())) {
+                messageArrayList.add(new ChatSessions(document.getString("To"), document.getString("To")));
+            } else {
+                messageArrayList.add(new ChatSessions(document.getString("From"), document.getString("From")));
+            }
+        }
+
+        return messageArrayList;
+    }
+
+    ArrayList<Message> getChatSessions(User current, User other) {
         ArrayList<Document> documentArrayList = new ArrayList<>();
         ArrayList<Message> messageArrayList = new ArrayList<>();
 
