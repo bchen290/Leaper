@@ -16,9 +16,10 @@ import com.esafirm.imagepicker.model.Image;
 import com.leapfrog.database.LeaperDatabase;
 import com.leapfrog.database.ProfileTable;
 import com.leapfrog.util.Authentication;
+import com.leapfrog.util.BaseActivity;
 import com.leapfrogandroid.R;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends BaseActivity {
     private CircleImageView imageView;
     private TextView fullNameView;
     private TextView userNameView;
@@ -28,9 +29,11 @@ public class ProfileActivity extends AppCompatActivity {
     private ProfileTable profileTable;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_screen);
+
+        setupToolbar("Your profile");
 
         profileTable = LeaperDatabase.getInstance(this).getProfileTable();
         profileTable.getProfile(Authentication.getUsername(this));
