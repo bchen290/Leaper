@@ -11,6 +11,7 @@ import com.mongodb.stitch.android.core.Stitch;
 import com.mongodb.stitch.android.core.StitchAppClient;
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoClient;
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoDatabase;
+import com.mongodb.stitch.core.auth.providers.anonymous.AnonymousCredential;
 
 import java.util.ArrayList;
 
@@ -30,6 +31,7 @@ public class LeaperDatabase extends SQLiteOpenHelper {
     private LeaperDatabase(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
 
+        Stitch.getDefaultAppClient().getAuth().loginWithCredential(new AnonymousCredential());
         mongoClient = client.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
         RemoteMongoDatabase database = mongoClient.getDatabase("Leaper");
 
