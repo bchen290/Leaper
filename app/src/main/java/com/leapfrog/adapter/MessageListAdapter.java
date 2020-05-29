@@ -46,7 +46,8 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     // Loads 30 most recent messages
-    private void refresh() {
+    public void refresh() {
+        messageList.clear();
         messageList.addAll(LeaperDatabase.getInstance(context).getMessages(current, other));
         notifyDataSetChanged();
     }
