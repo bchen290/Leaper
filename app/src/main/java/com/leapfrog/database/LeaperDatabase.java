@@ -23,7 +23,7 @@ public class LeaperDatabase extends SQLiteOpenHelper {
     private ProfileTable profileTable;
     private MessageTable messageTable;
 
-    private final StitchAppClient client = Stitch.initializeAppClient("leaper-oumlj");
+    private StitchAppClient client;
     private RemoteMongoClient mongoClient;
 
     private static LeaperDatabase mInstance;
@@ -31,7 +31,8 @@ public class LeaperDatabase extends SQLiteOpenHelper {
     private LeaperDatabase(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
 
-        Stitch.getDefaultAppClient().getAuth().loginWithCredential(new AnonymousCredential());
+        client = Stitch.initializeAppClient("leaper-oumlj");
+        client.getAuth().loginWithCredential(new AnonymousCredential());
         mongoClient = client.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas");
         RemoteMongoDatabase database = mongoClient.getDatabase("Leaper");
 
