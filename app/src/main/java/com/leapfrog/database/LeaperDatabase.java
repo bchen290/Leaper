@@ -79,7 +79,7 @@ public class LeaperDatabase extends SQLiteOpenHelper {
     }
 
     public ArrayList<Message> getMessages(User current, User other) {
-        return messageTable.getChatSessions(current, other);
+        return messageTable.getMessages(current, other);
     }
 
     public ArrayList<ChatSessions> getChatSessions(User current) {

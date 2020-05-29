@@ -83,6 +83,7 @@ public class ChatActivity extends BaseActivity {
 
             if(!messageString.isEmpty()) {
                 Message message = new Message();
+                message.setCreatedAt(System.currentTimeMillis());
                 message.setMessage(messageString);
                 message.setSender(currentUser);
                 message.setReceiver(otherUser);
