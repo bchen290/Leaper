@@ -127,6 +127,11 @@ public class ConversationsActivity extends BaseActivity {
             startActivity(intent);
 
             return true;
+        } else if(id == R.id.profile) {
+            Intent intent = new Intent(this, ProfileActivity.class);
+            startActivity(intent);
+
+            return true;
         } else if (id == R.id.logout) {
             Authentication.unauthenticate(this);
 

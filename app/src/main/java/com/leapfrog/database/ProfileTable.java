@@ -16,6 +16,8 @@ public class ProfileTable {
     private RemoteMongoCollection<Document> collections;
     private StitchAppClient remoteMongoClient;
 
+    private Document currentUserDocument;
+
     ProfileTable(RemoteMongoDatabase mongoDatabase, StitchAppClient remoteMongoClient) {
         this.mongoDatabase = mongoDatabase;
         this.remoteMongoClient = remoteMongoClient;
@@ -32,10 +34,24 @@ public class ProfileTable {
                 .append("Last", last)
                 .append("Username", username)
                 .append("Password", password)
-                .append("Email", email);
+                .append("Email", email)
+                .append("Bio", "")
+                .append("Profile Picture", "");
 
+        currentUserDocument = profileDocument;
         collections.insertOne(profileDocument);
     }
+
+    public void updateBio(String username, String bio) {
+        currentUserDocument.put("Bio", bio);
+        collections.updateOne(eq("Username", username), currentUserDocument);
+    }
+
+    public void updateProfilePicture(String username, String profilePicture) {
+        currentUserDocument.put("Profile Picture", profilePicture);
+        collections.updateOne(eq("Username", username), currentUserDocument);
+    }
+
 
     public boolean hasDuplicate(Bson filter){
         boolean hasDuplicate = false;
@@ -60,22 +76,33 @@ public class ProfileTable {
 
         if (result.getResult() != null) {
             hasUser = true;
+            currentUserDocument = (Document) result.getResult();
         }
 
         return hasUser;
     }
 
     public String getName(String username){
-        String full_name = "";
+        return currentUserDocument.getString("First") + " " + currentUserDocument.getString("Last");
+    }
 
-        Task<Document> result = collections.find(eq("Username", username)).first();
+    public String getBio(String username){
+        return currentUserDocument.getString("Bio");
+    }
 
-        while (!result.isComplete()) { }
+    public String getProfilePicture(String username){
+        return currentUserDocument.getString("Profile Picture");
+    }
 
-        if (result.getResult() != null) {
-            full_name = result.getResult().getString("First") + " " + result.getResult().getString("Last");
+    public void getProfile(String username) {
+        if (currentUserDocument == null) {
+            Task result = collections.find(eq("Username", username)).first();
+
+            while (!result.isComplete()) { }
+
+            if (result.getResult() != null) {
+                currentUserDocument = (Document) result.getResult();
+            }
         }
-
-        return full_name;
     }
 }

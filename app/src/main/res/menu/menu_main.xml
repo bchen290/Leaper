@@ -7,6 +7,11 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/profile"
+        android:title="Profile"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/logout"
         android:title="@string/log_out"
         app:showAsAction="never" />

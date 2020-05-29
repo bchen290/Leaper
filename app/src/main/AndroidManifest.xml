@@ -51,5 +51,8 @@
         <activity
             android:name="com.leapfrog.activities.SettingsActivity"
             android:parentActivityName="com.leapfrog.activities.ConversationsActivity"/>
+        <activity
+            android:name="com.leapfrog.activities.ProfileActivity"
+            android:parentActivityName="com.leapfrog.activities.ConversationsActivity" />
     </application>
 </manifest>
