@@ -16,6 +16,8 @@ public class ProfileTable {
     private RemoteMongoCollection<Document> collections;
     private StitchAppClient remoteMongoClient;
 
+    private Document currentUserDocument;
+
     ProfileTable(RemoteMongoDatabase mongoDatabase, StitchAppClient remoteMongoClient) {
         this.mongoDatabase = mongoDatabase;
         this.remoteMongoClient = remoteMongoClient;
@@ -36,15 +38,18 @@ public class ProfileTable {
                 .append("Bio", "")
                 .append("Profile Picture", "");
 
+        currentUserDocument = profileDocument;
         collections.insertOne(profileDocument);
     }
 
     public void updateBio(String username, String bio) {
-        collections.updateOne(eq("Username", username), new Document().append("Bio", bio));
+        currentUserDocument.put("Bio", bio);
+        collections.updateOne(eq("Username", username), currentUserDocument);
     }
 
-    public void updatePP(String username, String PP) {
-        collections.updateOne(eq("Username", username), new Document().append("Profile Picture", PP));
+    public void updateProfilePicture(String username, String profilePicture) {
+        currentUserDocument.put("Profile Picture", profilePicture);
+        collections.updateOne(eq("Username", username), currentUserDocument);
     }
 
 
@@ -71,50 +76,33 @@ public class ProfileTable {
 
         if (result.getResult() != null) {
             hasUser = true;
+            currentUserDocument = (Document) result.getResult();
         }
 
         return hasUser;
     }
 
     public String getName(String username){
-        String full_name = "";
-
-        Task<Document> result = collections.find(eq("Username", username)).first();
-
-        while (!result.isComplete()) { }
-
-        if (result.getResult() != null) {
-            full_name = result.getResult().getString("First") + " " + result.getResult().getString("Last");
-        }
-
-        return full_name;
+        return currentUserDocument.getString("First") + " " + currentUserDocument.getString("Last");
     }
 
     public String getBio(String username){
-        String bio = "";
-
-        Task<Document> result = collections.find(eq("Username", username)).first();
-
-        while (!result.isComplete()) { }
-
-        if (result.getResult() != null) {
-            bio = result.getResult().getString("Bio");
-        }
-
-        return bio;
+        return currentUserDocument.getString("Bio");
     }
 
-    public String getPP(String username){
-        String PP = "";
+    public String getProfilePicture(String username){
+        return currentUserDocument.getString("Profile Picture");
+    }
 
-        Task<Document> result = collections.find(eq("Username", username)).first();
+    public void getProfile(String username) {
+        if (currentUserDocument == null) {
+            Task result = collections.find(eq("Username", username)).first();
 
-        while (!result.isComplete()) { }
+            while (!result.isComplete()) { }
 
-        if (result.getResult() != null) {
-            PP = result.getResult().getString("Profile Picture");
+            if (result.getResult() != null) {
+                currentUserDocument = (Document) result.getResult();
+            }
         }
-
-        return PP;
     }
 }
