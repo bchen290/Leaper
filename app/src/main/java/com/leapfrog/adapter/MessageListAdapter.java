@@ -1,6 +1,9 @@
 package com.leapfrog.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,7 @@ import com.leapfrog.database.LeaperDatabase;
 import com.leapfrog.model.Message;
 import com.leapfrog.model.User;
 import com.leapfrog.util.Authentication;
+import com.leapfrog.util.SettingsPreference;
 import com.leapfrogandroid.R;
 
 import java.util.List;
@@ -27,6 +31,8 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private User current, other;
 
+    private SharedPreferences preferences;
+
     public MessageListAdapter(Context context, List<Message> messageList, User current, User other){
         this.context = context;
         this.messageList = messageList;
@@ -35,6 +41,8 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.other = other;
 
         refresh();
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     // Loads 30 most recent messages
@@ -115,6 +123,8 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             timeText = itemView.findViewById(R.id.text_message_time);
             nameText = itemView.findViewById(R.id.text_message_name);
             profileImage = itemView.findViewById(R.id.image_message_profile);
+
+            messageText.setTextColor(SettingsPreference.getColor(context));
         }
 
         void bind(Message message){
@@ -131,6 +141,8 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             super(itemView);
             messageText = itemView.findViewById(R.id.text_message_body);
             timeText = itemView.findViewById(R.id.text_message_time);
+
+            messageText.setTextColor(SettingsPreference.getColor(context));
         }
 
         void bind(Message message){
