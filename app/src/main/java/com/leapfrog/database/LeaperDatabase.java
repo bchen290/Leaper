@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.leapfrog.model.ChatSessions;
 import com.leapfrog.model.Message;
 import com.leapfrog.model.User;
 import com.mongodb.stitch.android.core.Stitch;
@@ -75,6 +76,10 @@ public class LeaperDatabase extends SQLiteOpenHelper {
     }
 
     public ArrayList<Message> getMessages(User current, User other) {
-        return messageTable.getMessages(current, other);
+        return messageTable.getChatSessions(current, other);
+    }
+
+    public ArrayList<ChatSessions> getChatSessions(User current) {
+        return messageTable.getChatSessions(current);
     }
 }

@@ -18,4 +18,8 @@ public class SettingsPreference {
 
         return Color.rgb(red, green, blue);
     }
+
+    public static boolean getColorBlindMode(Context context) {
+        return getSettingsPreference(context).getBoolean("colorBlind", false);
+    }
 }

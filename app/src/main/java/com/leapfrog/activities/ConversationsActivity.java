@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -14,6 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.leapfrog.bluetooth.BluetoothHelper;
 import com.leapfrog.database.LeaperDatabase;
 import com.leapfrog.model.ChatSessions;
+import com.leapfrog.model.User;
 import com.leapfrog.util.Authentication;
 import com.leapfrog.util.BaseActivity;
 import com.leapfrog.util.InternetConnectivity;
@@ -22,7 +24,9 @@ import com.leapfrogandroid.R;
 import com.yarolegovich.lovelydialog.LovelyTextInputDialog;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -75,7 +79,8 @@ public class ConversationsActivity extends BaseActivity {
 
         chatSessionListView = findViewById(R.id.chat_sessions);
 
-        chatSessionList = new ArrayList<>();
+        Set<ChatSessions> chatSessionsSet = new HashSet<>(LeaperDatabase.getInstance(this).getChatSessions(new User(Authentication.getUsername(this), "", Authentication.getUsername(this))));
+        chatSessionList = new ArrayList<>(chatSessionsSet);
 
         chatSessionListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, chatSessionList);
         chatSessionListAdapter.setNotifyOnChange(true);

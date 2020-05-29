@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
         android:title="Accessibility" />
 
@@ -8,28 +9,32 @@
         android:title="Font Size"
         android:summary="Change font size of app"
         android:max="5"
-        android:defaultValue="0" />
+        android:defaultValue="0"
+        app:showSeekBarValue="true"/>
 
     <SeekBarPreference
         android:key="redText"
         android:title="Red Portion of Text Color"
         android:summary="Change text color of app"
         android:max="255"
-        android:defaultValue="0" />
+        android:defaultValue="0"
+        app:showSeekBarValue="true"/>
 
     <SeekBarPreference
         android:key="greenText"
         android:title="Green Portion of Text Color"
         android:summary="Change text color of app"
         android:max="255"
-        android:defaultValue="0" />
+        android:defaultValue="0"
+        app:showSeekBarValue="true"/>
 
     <SeekBarPreference
         android:key="blueText"
         android:title="Blue Portion of Text Color"
         android:summary="Change text color of app"
         android:max="255"
-        android:defaultValue="0" />
+        android:defaultValue="0"
+        app:showSeekBarValue="true"/>
 
     <SwitchPreference
         android:key="colorBlind"

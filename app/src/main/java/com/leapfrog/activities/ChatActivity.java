@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -65,6 +66,17 @@ public class ChatActivity extends BaseActivity {
 
         mChatAdapter = new MessageListAdapter(this, new ArrayList<>(), currentUser, otherUser);
         mRecyclerView.setAdapter(mChatAdapter);
+
+        Handler handler = new Handler();
+        Runnable handlerTask = new Runnable() {
+            @Override
+            public void run() {
+                mChatAdapter.refresh();
+                handler.postDelayed(this, 10000);
+            }
+        };
+
+        handlerTask.run();
 
         mSendButton.setOnClickListener(v -> {
             messageString = mMessageEditText.getText().toString();
