@@ -32,10 +32,21 @@ public class ProfileTable {
                 .append("Last", last)
                 .append("Username", username)
                 .append("Password", password)
-                .append("Email", email);
+                .append("Email", email)
+                .append("Bio", "")
+                .append("Profile Picture", "");
 
         collections.insertOne(profileDocument);
     }
+
+    public void updateBio(String username, String bio) {
+        collections.updateOne(eq("Username", username), new Document().append("Bio", bio));
+    }
+
+    public void updatePP(String username, String PP) {
+        collections.updateOne(eq("Username", username), new Document().append("Profile Picture", PP));
+    }
+
 
     public boolean hasDuplicate(Bson filter){
         boolean hasDuplicate = false;
@@ -77,5 +88,33 @@ public class ProfileTable {
         }
 
         return full_name;
+    }
+
+    public String getBio(String username){
+        String bio = "";
+
+        Task<Document> result = collections.find(eq("Username", username)).first();
+
+        while (!result.isComplete()) { }
+
+        if (result.getResult() != null) {
+            bio = result.getResult().getString("Bio");
+        }
+
+        return bio;
+    }
+
+    public String getPP(String username){
+        String PP = "";
+
+        Task<Document> result = collections.find(eq("Username", username)).first();
+
+        while (!result.isComplete()) { }
+
+        if (result.getResult() != null) {
+            PP = result.getResult().getString("Profile Picture");
+        }
+
+        return PP;
     }
 }

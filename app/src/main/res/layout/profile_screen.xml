@@ -41,4 +41,13 @@
         android:layout_gravity="center"
         android:id="@+id/Bio"
         />
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:text="Save"
+        android:id="@+id/Save_button"
+        />
 </LinearLayout>
