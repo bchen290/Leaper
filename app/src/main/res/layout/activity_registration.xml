@@ -129,8 +129,8 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_gravity="center"
-        android:text="@string/register" />
-
+        android:text="@string/register"
+        />
     <TextView
         android:id="@+id/loginLink"
         android:layout_width="wrap_content"
