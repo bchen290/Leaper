@@ -28,6 +28,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * This class holds all the necessary components to allow the user to message over bluetooth or data
+ */
 @SuppressWarnings("FieldCanBeLocal")
 public class ChatActivity extends BaseActivity {
     public static final UUID BLUETOOTH_UUID = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
@@ -45,6 +48,13 @@ public class ChatActivity extends BaseActivity {
 
     private User currentUser, otherUser;
 
+    /**
+     * Sets up chat activity
+     * Initialize the two user objects, all the layout items, and the bluetooth threads
+     * Create handler that refreshes activity every 10 seconds
+     * Set on click listener to send message on send button clicked
+     * @param savedInstanceState Information saved about current activity
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,10 +127,15 @@ public class ChatActivity extends BaseActivity {
         }
     }
 
-    @SuppressWarnings("unused")
+    /**
+     * Accepts bluetooth connection
+     */
     class AcceptThread extends Thread {
         private BluetoothServerSocket mmServerSocket;
 
+        /**
+         * Created a server socket to listen to bluetooth connection at UUID
+         */
         AcceptThread() {
             BluetoothServerSocket tmp = null;
 
@@ -133,6 +148,9 @@ public class ChatActivity extends BaseActivity {
             mmServerSocket = tmp;
         }
 
+        /**
+         * This will wait until we receive a connection which will start another thread
+         */
         @Override
         public void run(){
             BluetoothSocket socket;
@@ -153,6 +171,9 @@ public class ChatActivity extends BaseActivity {
             }
         }
 
+        /**
+         * Cancels the server socket
+         */
         public void cancel() {
             try {
                 mmServerSocket.close();
@@ -162,15 +183,26 @@ public class ChatActivity extends BaseActivity {
         }
     }
 
+    /**
+     * Receives data from an established connection
+     */
     class BluetoothServer extends Thread {
         private InputStream inputStream;
         private BluetoothSocket bluetoothSocket;
 
+        /**
+         * Sets up the data connection
+         * @param socket The bluetooth socket to connect to
+         * @throws IOException Exception if socket cannot be reached
+         */
         BluetoothServer(BluetoothSocket socket) throws IOException {
             inputStream = socket.getInputStream();
             bluetoothSocket = socket;
         }
 
+        /**
+         * Read input until there's nothing to read then append this to the chat
+         */
         @Override
         public void run() {
             try {
@@ -214,11 +246,17 @@ public class ChatActivity extends BaseActivity {
         }
     }
 
-    @SuppressWarnings("unused")
+    /**
+     * Connects to a bluetooth server
+     */
     class ConnectThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final BluetoothDevice mmDevice;
 
+        /**
+         * Creates a client side connection to a server
+         * @param device The device to connect to
+         */
         ConnectThread(BluetoothDevice device) {
             BluetoothSocket tmp = null;
             mmDevice = device;
@@ -232,6 +270,9 @@ public class ChatActivity extends BaseActivity {
             mmSocket = tmp;
         }
 
+        /**
+         * Writes data to the output stream
+         */
         @Override
         public void run(){
             bluetoothAdapter.cancelDiscovery();
@@ -259,6 +300,9 @@ public class ChatActivity extends BaseActivity {
             }
         }
 
+        /**
+         * Closes connection to server
+         */
         public void cancel() {
             try {
                 mmSocket.close();
