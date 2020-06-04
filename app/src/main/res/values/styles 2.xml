@@ -1,0 +1,30 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="backgroundColor">@android:color/white</item>
+
+        <item name="android:homeAsUpIndicator">@drawable/arrow_left</item>
+    </style>
+
+    <style name="colorBlind" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:textColor">@color/onyx</item>
+        <item name="editTextStyle">@style/LeaperEditText</item>
+
+        <item name="backgroundColor">@color/blue</item>
+
+        <item name="android:homeAsUpIndicator">@drawable/arrow_left</item>
+    </style>
+
+    <style name="LeaperEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="ToolbarWhiteOverflow" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:textColorSecondary">@android:color/white</item>
+    </style>
+</resources>

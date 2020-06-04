@@ -14,8 +14,16 @@ import com.leapfrog.util.BaseActivity;
 import com.leapfrog.util.Utils;
 import com.leapfrogandroid.R;
 import static com.mongodb.client.model.Filters.eq;
-
+/**
+ * This class holds all the necessary components to allow the user to Register
+ */
 public class RegistrationActivity extends BaseActivity {
+    /**
+     * Sets up Registration activity
+     * Initialize the six user input boxes
+     * Set on click listener to save information that is inputted
+     * @param savedInstanceState Information saved about current activity
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
