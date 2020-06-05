@@ -15,16 +15,31 @@ import java.security.GeneralSecurityException;
 import static android.content.Context.MODE_PRIVATE;
 
 public class Utils {
+    /**
+     * Checks if network is available
+     * @param context Application context
+     * @return Whether there is network or not
+     */
     public static boolean hasNetworkAvailable(Context context) {
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = manager.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnected();
     }
 
+    /**
+     * Helper method to check if edittext is empty
+     * @param editText The edittext to check
+     * @return Whether the edittext is empty
+     */
     public static boolean checkIfEditTextIsEmpty(EditText editText) {
         return editText.getText().toString().isEmpty();
     }
 
+    /**
+     * Encrypt password
+     * @param password The password to encrypt
+     * @return The encrypted password
+     */
     public static String passwordEncryption(String password) {
         String key = "key";
         try {
@@ -36,6 +51,10 @@ public class Utils {
         return password;
     }
 
+    /**
+     * Helper method to hide keyboard
+     * @param activity The activity to hide keyboard from
+     */
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.
@@ -47,6 +66,11 @@ public class Utils {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    /**
+     * Helper method to change font size
+     * @param context The Application context
+     * @return The new application context
+     */
     static Context adjustFontSize(Context context) {
         Configuration configuration = context.getResources().getConfiguration();
         configuration.fontScale = (float)(1 + PreferenceManager.getDefaultSharedPreferences(context).getInt("fontSize", 0) / 10.0);
