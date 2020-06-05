@@ -1,5 +1,11 @@
 package com.leapfrog.database;
 
+//File Name: LeaperDatabase.java
+//Purpose: This file creates and handles all methods involving the Leaper Database
+//Version: 1.0, Last Edit Date: 05/29/2020
+//Author: Brian Chen, Omri Chashper, Sarar Aseer, Greg Dolan
+//Dependencies: ChatSessions.java, Message.java, User.java
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;

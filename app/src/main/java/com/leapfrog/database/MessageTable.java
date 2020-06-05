@@ -1,5 +1,11 @@
 package com.leapfrog.database;
 
+//File Name: MessageTable.java
+//Purpose: This file creates and stores information into the Message Table in MongoDB
+//Version: 1.0, Last Edit Date: 05/29/2020
+//Author: Brian Chen
+//Dependencies: ChatSessions.java, Message.java, User.java
+
 import android.util.Log;
 
 import com.google.android.gms.tasks.Task;

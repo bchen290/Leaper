@@ -1,5 +1,11 @@
 package com.leapfrog.database;
 
+//File Name: ProfileTable.java
+//Purpose: This file creates and stores information into the Profile Table in MongoDB
+//Version: 1.0, Last Edit Date: 05/29/2020
+//Author: Brian Chen, Omri Chashper, Sarar Aseer
+//Dependencies: N/A
+
 import static com.mongodb.client.model.Filters.*;
 
 import com.google.android.gms.tasks.Task;
