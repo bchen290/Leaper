@@ -11,7 +11,15 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
+/**
+ * Holds the fragment for the settings screen
+ */
 public class SettingsFragment extends PreferenceFragmentCompat {
+    /**
+     * Sets up settings screen from xml
+     * @param savedInstanceState Saved application data
+     * @param rootKey The key to use for SharedPreference
+     */
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.settings, rootKey);
@@ -25,6 +33,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         return true;
     };
 
+    /**
+     * Listens to change in settings
+     */
     private void bindPreferenceSummaryToValue(Preference preference) {
         preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
 
