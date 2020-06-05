@@ -22,7 +22,9 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
+/**
+ * Holds the components required to allow the user to view messages
+ */
 public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private static final int VIEW_TYPE_MESSAGE_SENT = 1;
     private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
@@ -33,7 +35,9 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private User current, other;
 
     private SharedPreferences preferences;
-
+    /**
+     * Set private message component variables
+     */
     public MessageListAdapter(Context context, List<Message> messageList, User current, User other){
         this.context = context;
         this.messageList = messageList;
@@ -46,30 +50,39 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    // Loads 30 most recent messages
+    /**
+     * Get 30 most recent messages
+     */
     public void refresh() {
         messageList.clear();
         messageList.addAll(LeaperDatabase.getInstance(context).getMessages(current, other));
         notifyDataSetChanged();
     }
-
+    /**
+     * Get Messages
+     */
     public void loadPreviousMessages() {
-        //final long lastTimestamp = messageList.get(messageList.size() - 1).getCreatedAt();
-        //TODO actually get messages
+
         notifyDataSetChanged();
     }
-
+    /**
+     * Add message to list
+     */
     public synchronized void appendMessage(Message message){
         messageList.add(0, message);
         LeaperDatabase.getInstance(context).insertMessageData(message);
         notifyItemInserted(0);
     }
-
+    /**
+     * Add message to list
+     */
     public void sendMessage(final Message message){
         appendMessage(message);
         notifyDataSetChanged();
     }
-
+    /**
+     * Get message class
+     */
     @Override
     public int getItemViewType(int position){
         Message message = messageList.get(position);
@@ -80,7 +93,9 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             return VIEW_TYPE_MESSAGE_RECEIVED;
         }
     }
-
+    /**
+     * Create layout
+     */
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -96,7 +111,9 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         return new SentMessageHolder(view);
     }
-
+    /**
+     * Maintain layout
+     */
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Message message = messageList.get(position);
@@ -111,10 +128,15 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     @Override
+    /**
+     * Get number of messages
+     */
     public int getItemCount() {
         return messageList.size();
     }
-
+    /**
+     * Holds all the components required to allow the user to view received messages
+     */
     private class ReceivedMessageHolder extends RecyclerView.ViewHolder {
         TextView messageText, timeText, nameText;
         ImageView profileImage;
@@ -128,7 +150,9 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             messageText.setTextColor(SettingsPreference.getColor(context));
         }
-
+        /**
+         * Update and set message components
+         */
         void bind(Message message){
             messageText.setText(message.getMessage());
             nameText.setText(message.getSender().getNickname());
@@ -138,7 +162,9 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             timeText.setText(time);
         }
     }
-
+    /**
+     * Holds all the components required to allow the user to view sent message
+     */
     private class SentMessageHolder extends RecyclerView.ViewHolder {
         TextView messageText, timeText, nameText;
         ImageView profileImage;
@@ -150,7 +176,9 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             messageText.setTextColor(SettingsPreference.getColor(context));
         }
-
+        /**
+         * Update and set message components
+         */
         void bind(Message message){
             messageText.setText(message.getMessage());
             Calendar calendar = Calendar.getInstance();
