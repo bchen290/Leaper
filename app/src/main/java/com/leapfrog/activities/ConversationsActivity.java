@@ -37,6 +37,9 @@ import java.util.Set;
 
 import androidx.appcompat.app.AlertDialog;
 
+/**
+ * Sets up the layout for conversation screen
+ */
 @SuppressWarnings("FieldCanBeLocal")
 public class ConversationsActivity extends BaseActivity {
     private ListView chatSessionListView;
@@ -48,6 +51,10 @@ public class ConversationsActivity extends BaseActivity {
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothHelper bluetoothHelper;
 
+    /**
+     * @param savedInstanceState
+     * Checks if there is internet connectivity, bluetooth, and authenticates
+     */
     @SuppressLint("HardwareIds")
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -116,12 +123,22 @@ public class ConversationsActivity extends BaseActivity {
         });
     }
 
+    /**
+     * @param menu Gets menu
+     * @return returns true if method works
+     * Creates the options menu
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
+    /**
+     * @param item item in option menu
+     * @return returns true when methods successfully works
+     * Functionality of option menu
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -161,6 +178,10 @@ public class ConversationsActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * @param user gets user
+     * cleans up when user sends message and sets everything
+     */
     public void onFinishUserDialog(String user) {
         ChatSessions chatSessions = new ChatSessions();
         chatSessions.setChatID(user);
@@ -168,6 +189,9 @@ public class ConversationsActivity extends BaseActivity {
         refreshAdapterFromDatabase();
     }
 
+    /**
+     * Refreshes he adapter
+     */
     public void refreshAdapterFromDatabase(){
         chatSessionListAdapter.clear();
         chatSessionListAdapter.notifyDataSetChanged();
