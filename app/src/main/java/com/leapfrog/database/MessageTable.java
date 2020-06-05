@@ -22,23 +22,26 @@ import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.or;
 
+/**
+ * This class holds all the necessary components to allow the user to save messages
+ */
 @SuppressWarnings({"unused", "FieldCanBeLocal"})
 class MessageTable {
     private RemoteMongoDatabase mongoDatabase;
     private RemoteMongoCollection<Document> collections;
     private StitchAppClient remoteMongoClient;
-
+    /**
+     * Initializes current messages
+     */
     MessageTable(RemoteMongoDatabase mongoDatabase, StitchAppClient remoteMongoClient) {
         this.mongoDatabase = mongoDatabase;
         this.remoteMongoClient = remoteMongoClient;
 
         collections = mongoDatabase.getCollection("Message");
     }
-
-    void deleteAll() {
-        //collections.deleteMany(new Document());
-    }
-
+    /**
+     * Insert new message data into database
+     */
     void insertMessageData(Message message){
         final Document messageDocument = new Document()
                 .append("Timestamp", message.getCreatedAt())
@@ -89,5 +92,8 @@ class MessageTable {
         }
 
         return messageArrayList;
+    }
+
+    public void deleteAll() {
     }
 }

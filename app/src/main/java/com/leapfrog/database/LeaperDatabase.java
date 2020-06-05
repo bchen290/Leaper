@@ -16,8 +16,10 @@ import com.mongodb.stitch.core.auth.providers.anonymous.AnonymousCredential;
 import java.util.ArrayList;
 
 import androidx.annotation.Nullable;
-
-public class LeaperDatabase extends SQLiteOpenHelper {
+/**
+ * This class holds all the necessary components to allow the system to save data
+ */
+public class LeaperDatabase{
     private static final String DATABASE_NAME = "Leaper.db";
 
     private ProfileTable profileTable;
@@ -27,9 +29,11 @@ public class LeaperDatabase extends SQLiteOpenHelper {
     private RemoteMongoClient mongoClient;
 
     private static LeaperDatabase mInstance;
-
+    /**
+     * Initializes Database and connects to Mongo
+     * Creates databases for Profiles and Messages
+     */
     private LeaperDatabase(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, 1);
 
         client = Stitch.initializeAppClient("leaper-oumlj");
         client.getAuth().loginWithCredential(new AnonymousCredential());
@@ -40,16 +44,9 @@ public class LeaperDatabase extends SQLiteOpenHelper {
         messageTable = new MessageTable(database, client);
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        onCreate(db);
-    }
-
+    /**
+     * Gets instance of class
+     */
     public static LeaperDatabase getInstance(Context ctx) {
         if (mInstance == null) {
             mInstance = new LeaperDatabase(ctx.getApplicationContext());
@@ -57,31 +54,52 @@ public class LeaperDatabase extends SQLiteOpenHelper {
         return mInstance;
     }
 
+    /**
+     * Deleted all data of profiles and messages from database
+     */
     public void deleteAll(){
         profileTable.deleteAll();
         messageTable.deleteAll();
     }
 
+    /**
+     * Inserts new profile data into database
+     */
     public void insertProfileData(String first, String last, String username, String password, String email) {
         profileTable.insertProfileData(first, last, username, password, email);
     }
 
+    /**
+     * Inserts new message data into database
+     */
     public void insertMessageData(Message msg) {
         messageTable.insertMessageData(msg);
     }
 
+    /**
+     * Gets existing profile from database
+     */
     public ProfileTable getProfileTable() {
         return profileTable;
     }
 
+    /**
+     * Checks if user information already exists in database
+     */
     public boolean verifyData(String username, String password) {
        return profileTable.verifyData(username, password);
     }
 
+    /**
+     * Returns existing messages within database
+     */
     public ArrayList<Message> getMessages(User current, User other) {
         return messageTable.getMessages(current, other);
     }
 
+    /**
+     * Returns existing chats between users within database
+     */
     public ArrayList<ChatSessions> getChatSessions(User current) {
         return messageTable.getChatSessions(current);
     }

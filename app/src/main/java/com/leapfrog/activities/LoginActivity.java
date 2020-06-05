@@ -18,7 +18,15 @@ import com.leapfrog.util.Utils;
 import com.leapfrog.util.Authentication;
 import com.leapfrogandroid.R;
 
+/**
+ * Holds all the components required to allow the user to login or redirect to registration activity
+ */
 public class LoginActivity extends BaseActivity {
+    /**
+     * Creates layout
+     * Set on click listener to allow login or redirect to {@link RegistrationActivity}
+     * @param savedInstanceState Information saved about current activity
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
