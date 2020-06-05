@@ -20,6 +20,9 @@ import java.util.Set;
 
 import androidx.appcompat.app.AlertDialog;
 
+/**
+ * Helper class for bluetooth connection
+ */
 public class BluetoothHelper {
     private Context context;
     private BluetoothAdapter bluetoothAdapter;
@@ -29,15 +32,27 @@ public class BluetoothHelper {
     private BluetoothSocket socket;
     private BluetoothDevice device;
 
+    /**
+     * Initialize bluetooth helper
+     * @param context Current Android context
+     * @param bluetoothAdapter The default bluetooth adapter
+     */
     public BluetoothHelper(Context context, BluetoothAdapter bluetoothAdapter){
         this.context = context;
         this.bluetoothAdapter = bluetoothAdapter;
     }
 
+    /**
+     * Gets all the paired devices
+     * @return List of paired devices
+     */
     public List<BluetoothDevice> getPairedDevices(){
         return new ArrayList<>(bluetoothAdapter.getBondedDevices());
     }
 
+    /**
+     * Shows all the paired devices in a dialog
+     */
     public void showPairedBluetoothDevices() {
         final ArrayList<BluetoothDevice> pairedDeviceList = new ArrayList<>();
         ArrayList<String> pairedDeviceName = new ArrayList<>();
