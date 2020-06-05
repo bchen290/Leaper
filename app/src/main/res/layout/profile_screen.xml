@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--File Name: profile_screen.xml-->
+<!--Purpose: This file is the layout code for the profile screen-->
+<!--Version: 1.0, Last Edit Date: 05/29/2020-->
+<!--Authors: Omri Chashper, Brian Chen-->
+<!--Dependencies: N/A-->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent"

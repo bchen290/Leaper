@@ -1,3 +1,9 @@
+<!--File Name: styles.xml-->
+<!--Purpose: This file handles the styles and themes used in the application-->
+<!--Version: 1.0, Last Edit Date: 05/29/2020-->
+<!--Authors: Brian Chen, Sarar Aseer-->
+<!--Dependencies: N/A-->
+
 <resources>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">

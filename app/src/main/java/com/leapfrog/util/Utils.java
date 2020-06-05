@@ -1,5 +1,11 @@
 package com.leapfrog.util;
 
+//File Name: Utils.java
+//Purpose: This file contains all the utilities used in this project
+//Version: 1.0, Last Edit Date: 05/17/2020
+//Author: Brian Chen, Omri Chashper
+//Dependencies: N/A
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;

@@ -1,3 +1,9 @@
+<!--File Name: strings.xml-->
+<!--Purpose: This file handles string objects used in the application-->
+<!--Version: 1.0, Last Edit Date: 05/19/2020-->
+<!--Authors: Brian Chen, Omri Chashper-->
+<!--Dependencies: N/A-->
+
 <resources>
     <string name="app_name">LeapFrogAndroid</string>
     <string name="enter_message">Enter message</string>

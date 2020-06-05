@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--File Name: activity_login.xml-->
+<!--Purpose: This file is the layout code for the login screen-->
+<!--Version: 1.0, Last Edit Date: 05/17/2020-->
+<!--Authors: Omri Chashper, Sarar Aseer, Brian Chen-->
+<!--Dependencies: N/A-->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">

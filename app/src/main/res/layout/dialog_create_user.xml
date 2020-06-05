@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--File Name: dialog_create_user.xml-->
+<!--Purpose: This file creates the text box that takes in the user input-->
+<!--Version: 1.0, Last Edit Date: 04/17/2020-->
+<!--Authors: Brian Chen, Omri Chashper-->
+<!--Dependencies: N/A-->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

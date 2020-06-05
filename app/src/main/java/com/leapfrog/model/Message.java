@@ -1,4 +1,11 @@
 package com.leapfrog.model;
+
+//File Name: Message.java
+//Purpose: This file handles everything regarding a message
+//Version: 1.0, Last Edit Date: 05/14/2020
+//Author: Brian Chen
+//Dependencies: N/A
+
 /**
  * This class holds necessary components to allow the user to format messages
  */

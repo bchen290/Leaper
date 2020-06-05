@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--File Name: colors.xml-->
+<!--Purpose: This file stores the colors used in the application-->
+<!--Version: 1.0, Last Edit Date: 05/28/2020-->
+<!--Authors: Sarar Aseer, Brian Chen-->
+<!--Dependencies: N/A-->
+
 <resources>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>

@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--File Name: toolbar.xml-->
+<!--Purpose: This file is the layout code for the toolbar-->
+<!--Version: 1.0, Last Edit Date: 05/19/2020-->
+<!--Authors: Brian Chen-->
+<!--Dependencies: N/A-->
+
 <androidx.appcompat.widget.Toolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

@@ -1,5 +1,11 @@
 package com.leapfrog.fragment;
 
+//File Name: SettingsFragment.java
+//Purpose: This file the actual settings screen
+//Version: 1.0, Last Edit Date: 05/17/2020
+//Author: Brian Chen
+//Dependencies: N/A
+
 import android.os.Bundle;
 import android.widget.Toast;
 

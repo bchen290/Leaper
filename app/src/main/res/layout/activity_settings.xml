@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--File Name: activity_settings.xml-->
+<!--Purpose: This file creates the settings page and includes the toolbar-->
+<!--Version: 1.0, Last Edit Date: 05/21/2020-->
+<!--Authors: Brian Chen, Sarar Aseer-->
+<!--Dependencies: N/A-->
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"

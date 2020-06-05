@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--File Name:activity_chat.xml -->
+<!--Purpose: This file is the layout code for the messaging screen-->
+<!--Version: 1.0, Last Edit Date: 05/17/2020-->
+<!--Authors: Brian Chen-->
+<!--Dependencies: N/A-->
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

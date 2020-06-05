@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--File Name: backup_descriptor.xml-->
+<!--Purpose: This file holds the initialization of the backend objects like the Database-->
+<!--Version: 1.0, Last Edit Date: 05/17/2020-->
+<!--Authors: Brian Chen-->
+<!--Dependencies: N/A-->
+
 <full-backup-content>
     <!-- TODO Remove the following "exclude" elements to make them a part of the auto backup -->
     <exclude
