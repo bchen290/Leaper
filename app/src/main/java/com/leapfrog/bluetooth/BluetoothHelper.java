@@ -1,5 +1,11 @@
 package com.leapfrog.bluetooth;
 
+//File Name: BluetoothHelper.java
+//Purpose: This file holds methods to help with bluetooth functionality
+//Version: 1.0, Last Edit Date: 05/14/2020
+//Author: Brian Chen, Greg Dolan
+//Dependencies: ConversationsActivity.java, ChatActivity.java
+
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;

@@ -1,5 +1,11 @@
 package com.leapfrog.adapter;
 
+//File Name: MessageListAdapter.java
+//Purpose: This file holds the components for message viewing
+//Version: 1.0, Last Edit Date: 05/29/2020
+//Author: Brian Chen, Greg Dolan
+//Dependencies: LeaperDatabase.java, Message.java, User.java, Authentication.java, SettingsPreference.java
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
