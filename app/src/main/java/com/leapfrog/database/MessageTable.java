@@ -93,4 +93,7 @@ class MessageTable {
 
         return messageArrayList;
     }
+
+    public void deleteAll() {
+    }
 }
