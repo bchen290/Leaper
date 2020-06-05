@@ -1,5 +1,10 @@
 package com.leapfrog.model;
 
+//File Name: ChatSessions.java
+//Purpose: This file holds values and data regarding the chat screen
+//Version: 1.0, Last Edit Date: 05/29/2020
+//Author: Brian Chen
+//Dependencies: N/A
 
 import java.util.Objects;
 
