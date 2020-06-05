@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--File Name: settings.xml-->
+<!--Purpose: This file is the layout code for the settings screen-->
+<!--Version: 1.0, Last Edit Date: 05/29/2020-->
+<!--Authors: Brian Chen, Sarar Aseer-->
+<!--Dependencies: N/A-->
+
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory

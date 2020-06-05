@@ -1,5 +1,11 @@
 package com.leapfrog.util;
 
+//File Name: SettingsPreference.java
+//Purpose: This file handles everything regarding the settings screen
+//Version: 1.0, Last Edit Date: 05/29/2020
+//Author: Brian Chen
+//Dependencies: N/A
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;

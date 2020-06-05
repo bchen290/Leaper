@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--File Name: item_message_received.xml-->
+<!--Purpose: This file handles the layout code for the received message display-->
+<!--Version: 1.0, Last Edit Date: 04/17/2020-->
+<!--Authors: Brian Chen-->
+<!--Dependencies: N/A-->
+
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

@@ -1,5 +1,11 @@
 package com.leapfrog.util;
 
+//File Name: User.java
+//Purpose: This file checks for and handles everything involving device connectivity
+//Version: 1.0, Last Edit Date: 05/14/2020
+//Author: Brian Chen
+//Dependencies: N/A
+
 import android.content.Context;
 import android.content.SharedPreferences;
 

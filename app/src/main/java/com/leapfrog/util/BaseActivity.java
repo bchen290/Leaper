@@ -1,5 +1,11 @@
 package com.leapfrog.util;
 
+//File Name: BaseActivity.java
+//Purpose: This file is a blueprint for all activity files
+//Version: 1.0, Last Edit Date: 05/29/2020
+//Author: Brian Chen
+//Dependencies: N/A
+
 import android.content.Context;
 import android.os.Bundle;
 

@@ -1,5 +1,11 @@
 package com.leapfrog.util;
 
+//File Name: Authentication.java
+//Purpose: This file checks if a users profile info is authentic/not used prior to
+//Version: 1.0, Last Edit Date: 05/15/2020
+//Author: Brian Chen
+//Dependencies: N/A
+
 import android.content.Context;
 import android.content.SharedPreferences;
 

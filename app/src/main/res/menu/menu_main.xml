@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--File Name: menu_main.xml-->
+<!--Purpose: This file handles the options in the hamburger menu-->
+<!--Version: 1.0, Last Edit Date: 05/28/2020-->
+<!--Authors: Brian Chen-->
+<!--Dependencies: N/A-->
+
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
