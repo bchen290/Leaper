@@ -1,5 +1,13 @@
 package com.leapfrog.activities;
 
+//File Name: ChatActivity.java
+//Purpose: This file handles all the messaging
+//Version: 1.0, Last Edit Date: 05/29/2020
+//Author: Brian Chen
+//Dependencies: AndroidManifest.xml, activity_chat.xml, MessageListAdapter.java, Message.java, User.java, Authentication.java,
+//              BaseActivity.java, InternetConnectivity.java
+
+
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;

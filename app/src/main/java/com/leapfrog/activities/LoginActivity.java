@@ -1,5 +1,11 @@
 package com.leapfrog.activities;
 
+//File Name: LoginActivity.java
+//Purpose: This file allows users to Log In
+//Version: 1.0, Last Edit Date: 05/17/2020
+//Author: Brian Chen, Omri Chashper, Sarar Aseer
+//Dependencies: AndroidManifest.xml, activity_login.xml, LeaperDatabase.java, BaseActivity.java, Utils.java, Authentication.java
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;

@@ -1,5 +1,11 @@
 package com.leapfrog.activities;
 
+//File Name: ProfileActivity.java
+//Purpose: This file allows users to manage and update their profiles
+//Version: 1.0, Last Edit Date: 05/29/2020
+//Author: Omri Chashper, Brian Chen
+//Dependencies: AndroidManifest.xml, profile_screen.xml, LeaperDatabase.java, ProfileTable.java, Authentication.java, BaseActivity.java
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;

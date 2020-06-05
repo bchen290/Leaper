@@ -1,5 +1,11 @@
 package com.leapfrog.activities;
 
+//File Name: RegistrationActivity.java
+//Purpose: This file allows users to register an account
+//Version: 1.0, Last Edit Date: 05/17/2020
+//Author: Brian Chen, Greg Dolan, Omri Chashper
+//Dependencies: AndroidManifest.xml, activity_registration.xml, LeaperDatabase.java, Authentication.java, BaseActivity.java, Utils.java
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
