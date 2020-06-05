@@ -1,5 +1,11 @@
 package com.leapfrog.activities;
 
+//File Name: LoginActivity.java
+//Purpose: This file allows users to Log In
+//Version: 1.0, Last Edit Date: 05/17/2020
+//Author: Brian Chen, Omri Chashper, Sarar Aseer
+//Dependencies: AndroidManifest.xml, activity_login.xml, LeaperDatabase.java, BaseActivity.java, Utils.java, Authentication.java
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -12,7 +18,15 @@ import com.leapfrog.util.Utils;
 import com.leapfrog.util.Authentication;
 import com.leapfrogandroid.R;
 
+/**
+ * Holds all the components required to allow the user to login or redirect to registration activity
+ */
 public class LoginActivity extends BaseActivity {
+    /**
+     * Creates layout
+     * Set on click listener to allow login or redirect to {@link RegistrationActivity}
+     * @param savedInstanceState Information saved about current activity
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

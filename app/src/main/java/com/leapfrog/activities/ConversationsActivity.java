@@ -1,5 +1,12 @@
 package com.leapfrog.activities;
 
+//File Name: ConversationActivity.java
+//Purpose: This one that holds all the different conversations
+//Version: 1.0, Last Edit Date: 04/17/2020
+//Author: Brian Chen, Greg Dolan, Omri Chashper
+//Dependencies: AndroidManifest.xml, activity_conversations.xml, LeaperDatabase.java, BluetoothHelper.java, ChatSessions.java,
+//              User.java, Authentication.java, BaseActivity.java, InternetConnectivity.java, Utils.java
+
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;

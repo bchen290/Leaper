@@ -17,6 +17,7 @@ import com.leapfrog.util.Authentication;
 import com.leapfrog.util.SettingsPreference;
 import com.leapfrogandroid.R;
 
+import java.util.Calendar;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -131,6 +132,10 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         void bind(Message message){
             messageText.setText(message.getMessage());
             nameText.setText(message.getSender().getNickname());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(message.getCreatedAt());
+            String time = calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
+            timeText.setText(time);
         }
     }
 
@@ -148,6 +153,10 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         void bind(Message message){
             messageText.setText(message.getMessage());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(message.getCreatedAt());
+            String time = calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
+            timeText.setText(time);
         }
     }
 }

@@ -1,5 +1,11 @@
 package com.leapfrog.activities;
 
+//File Name: ProfileActivity.java
+//Purpose: This file allows users to manage and update their profiles
+//Version: 1.0, Last Edit Date: 05/29/2020
+//Author: Omri Chashper, Brian Chen
+//Dependencies: AndroidManifest.xml, profile_screen.xml, LeaperDatabase.java, ProfileTable.java, Authentication.java, BaseActivity.java
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,7 +24,9 @@ import com.leapfrog.database.ProfileTable;
 import com.leapfrog.util.Authentication;
 import com.leapfrog.util.BaseActivity;
 import com.leapfrogandroid.R;
-
+/**
+ * This class holds all the necessary components to allow the user to view Profile
+ */
 public class ProfileActivity extends BaseActivity {
     private CircleImageView imageView;
     private TextView fullNameView;
@@ -27,7 +35,11 @@ public class ProfileActivity extends BaseActivity {
     private Button saveButton;
 
     private ProfileTable profileTable;
-
+    /**
+     * Sets up Profile activity
+     * Initialize the profile picture and user information
+     * @param savedInstanceState Information saved about current activity
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,9 +72,14 @@ public class ProfileActivity extends BaseActivity {
             Glide.with(this).load(profileTable.getProfilePicture(userName)).into(imageView);
         }
     }
-
+    /**
+     * User enters an image to be used as new profile picture
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        /**
+         * Checks for valid request
+         */
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
             Image image = ImagePicker.getFirstImageOrNull(data);
             Glide.with(this).load(image.getPath()).into(imageView);
@@ -70,7 +87,9 @@ public class ProfileActivity extends BaseActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
+    /**
+     * Allows user to pick an image from phone
+     */
     public void selectImage(View view) {
         ImagePicker.create(this).single().start();
     }
